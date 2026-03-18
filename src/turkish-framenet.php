@@ -91,8 +91,6 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('memory_limit', '1024M');
-error_reporting(E_ALL & ~E_WARNING);
-ini_set('display_errors', 0);
 use olcaytaner\Framenet\FrameNet;
 use olcaytaner\WordNet\WordNet;
 $wordNetCache = "wordnet.cache";
