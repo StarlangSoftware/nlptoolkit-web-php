@@ -2,6 +2,7 @@
 
 use olcaytaner\Corpus\Sentence;
 use olcaytaner\Dictionary\Dictionary\Dictionary;
+use olcaytaner\Dictionary\Dictionary\Pos;
 use olcaytaner\Dictionary\Dictionary\TxtWord;
 use olcaytaner\Framenet\Frame;
 use olcaytaner\Framenet\FrameNet;
@@ -11,6 +12,21 @@ use olcaytaner\Propbank\PredicateList;
 use olcaytaner\WordNet\SynSet;
 use olcaytaner\WordNet\WordNet;
 
+function pos_to_string(Pos $pos): string
+{
+    return match ($pos) {
+        Pos::ADJECTIVE => "ADJECTIVE",
+        Pos::ADVERB => "ADVERB",
+        Pos::NOUN => "NOUN",
+        Pos::VERB => "VERB",
+        Pos::CONJUNCTION => "CONJUNCTION",
+        Pos::INTERJECTION => "INTERJECTION",
+        Pos::PREPOSITION => "PREPOSITION",
+        Pos::PRONOUN => "PRONOUN",
+        default => "",
+    };
+}
+
 function create_table_for_word_search(string $word, WordNet $wordNet): string
 {
     $display = "<table> <tr> <th>Id</th> <th>Pos</th> <th>Definition</th> <th>Synonyms</th> </tr>";
@@ -18,7 +34,7 @@ function create_table_for_word_search(string $word, WordNet $wordNet): string
     foreach ($synSetList as $synSet) {
         for ($j = 0; $j < $synSet->getSynonym()->literalSize(); $j++) {
             if ($synSet->getSynonym()->getLiteral($j)->getName() === $word) {
-                $display .= "<tr><td>" . $synSet->getId() . "</td><td>" . $synSet->getPos() . "</td><td>" . $synSet->getDefinition() . "</td><td>";
+                $display .= "<tr><td>" . $synSet->getId() . "</td><td>" . pos_to_string($synSet->getPos()) . "</td><td>" . $synSet->getDefinition() . "</td><td>";
                 $display = create_synonym($display, $j, $synSet) . "</td></tr>";
                 break;
             }
@@ -52,7 +68,7 @@ function create_table_for_id_search(string $synsetId, WordNet $wordNet): string
     $display = "<table> <tr> <th>Pos</th> <th>Definition</th> <th>Synonyms</th> </tr>";
     $synSet = $wordNet->getSynSetWithId($synsetId);
     if ($synSet != null){
-        $display .= "<tr><td>" . $synSet->getPos() . "</td><td>" . $synSet->getDefinition() . "</td><td>";
+        $display .= "<tr><td>" . pos_to_string($synSet->getPos()) . "</td><td>" . $synSet->getDefinition() . "</td><td>";
         $display = create_synonym($display, -1, $synSet) . "</td></tr>";
         $display .= "</table>";
     }
