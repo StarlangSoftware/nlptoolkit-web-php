@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8f307fbf59b16248d7248935617d9c8",
+    "content-hash": "3efbad18760d55ecfae0840203b1039f",
     "packages": [],
     "packages-dev": [
         {
@@ -354,6 +354,46 @@
                 "source": "https://github.com/StarlangSoftware/TurkishPropBank-Php/tree/1.0.2"
             },
             "time": "2025-10-19T10:58:36+00:00"
+        },
+        {
+            "name": "olcaytaner/sentinet",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/TurkishSentiNet-Php.git",
+                "reference": "00aed8f2fb51680be1d83fd3f8fa600880ed51bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/TurkishSentiNet-Php/zipball/00aed8f2fb51680be1d83fd3f8fa600880ed51bd",
+                "reference": "00aed8f2fb51680be1d83fd3f8fa600880ed51bd",
+                "shasum": ""
+            },
+            "require-dev": {
+                "olcaytaner/xmlparser": "1.0.1",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\Sentinet\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "y"
+                }
+            ],
+            "description": "Simple Sentiment library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/TurkishSentiNet-Php/issues",
+                "source": "https://github.com/StarlangSoftware/TurkishSentiNet-Php/tree/1.0.0"
+            },
+            "time": "2025-01-04T18:00:59+00:00"
         },
         {
             "name": "olcaytaner/wordnet",
