@@ -94,14 +94,14 @@ ini_set('memory_limit', '1024M');
 use olcaytaner\Framenet\FrameNet;
 use olcaytaner\Propbank\FramesetList;
 use olcaytaner\WordNet\WordNet;
-$propBankCache = "propbank.cache";
+$propBankCache = "propbank1.cache";
 if (file_exists($propBankCache)) {
     $turkishPropBank = unserialize(file_get_contents($propBankCache));
 } else {
     $turkishPropBank = new FramesetList();
     file_put_contents($propBankCache, serialize($turkishPropBank));
 }
-$wordNetCache = "wordnet.cache";
+$wordNetCache = "wordnet1.cache";
 if (file_exists($wordNetCache)) {
     $turkishWordNet = unserialize(file_get_contents($wordNetCache));
 } else {
