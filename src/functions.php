@@ -139,11 +139,11 @@ function create_role_set_table(PredicateList $englishPropBank, string $roleSetNa
     return $display;
 }
 
-function create_morphological_analysis_table(FsmMorphologicalAnalyzer $fsm, string $sentence, string $word): string
+function create_morphological_analysis_table(FsmMorphologicalAnalyzer $fsm, string $sentence): string
 {
     $s = new Sentence($sentence);
     $analyzedSentence = $fsm->morphologicalAnalysisFromSentence($s);
-    $display = "<table> <tr> <th>$word</th> <th>Morphological Analyses</th> </tr>";
+    $display = "<table> <tr> <th>Word</th> <th>Morphological Analyses</th> </tr>";
     for ($i = 0; $i < $s->wordCount(); $i++) {
         $display .= "<tr><td>" . $s->getWord($i)->getName() . "</td><td>";
         $fsmParseList = $analyzedSentence[$i];
