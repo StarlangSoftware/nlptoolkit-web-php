@@ -22,5 +22,6 @@
     "olcaytaner/framenet": "1.0.1",
     "olcaytaner/wordnet": "1.0.1",
     "olcaytaner/corpus": "1.0.2",
+    "olcaytaner/propbank": "1.0.2",
     "olcaytaner/xmlparser": "1.0.1"
   }}
