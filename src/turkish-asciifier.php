@@ -85,31 +85,35 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>NlpToolkit</title>
+    <title>Turkish Asciifier</title>
 </head>
-<span class="badge">NlpToolkit</span>
 <body>
-<div class="container">
-<h2>Turkish Resources</h2>
-    <ul>
-        <li><a href="src/turkish-framenet.php">FrameNet</a></li>
-        <li><a href="src/turkish-propbank.php">PropBank</a></li>
-        <li><a href="src/turkish-wordnet.php">WordNet</a></li>
-        <li><a href="src/turkish-sentinet.php">SentiNet</a></li>
-        <li><a href="src/turkish-dictionary.php">Dictionary</a></li>
-        <li><a href="src/turkish-morphological-lexicon.php">Morphological Lexicon</a></li>
-    </ul>
-<h2>Turkish Processing</h2>
-    <ul>
-        <li><a href="turkish-morphological-analysis.html">Morphological Analysis</a></li>
-        <li><a href="src/turkish-asciifier.php">Asciifier</a></li>
-        <li><a href="turkish-deasciifier.html">Deasciifier</a></li>
-    </ul>
-<h2>English Resources</h2>
-    <ul>
-        <li><a href="src/english-propbank.php">PropBank</a></li>
-        <li><a href="src/english-wordnet.php">WordNet</a></li>
-    </ul>
-</div>
+<?php
+
+use olcaytaner\Corpus\Sentence;
+use olcaytaner\Deasciifier\SimpleAsciifier;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+ini_set('memory_limit', '1024M');
+$asciifierCache = "asciifier.cache";
+if (file_exists($asciifierCache)) {
+    $asciifier = unserialize(file_get_contents($asciifierCache));
+} else {
+    $asciifier = new SimpleAsciifier();
+    file_put_contents($asciifierCache, serialize($asciifier));
+}
+include 'functions.php';
+?>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <label for="sentence">Sentence:</label>
+    <input type="text" id="sentence" name="sentence" size="100" required><br><br>
+    <input type="submit" name="submit_asciifier" value="Asciifier">
+</form>
+<?php
+if (isset($_POST['submit_asciifier'])) {
+    $sentence = htmlspecialchars($_POST['sentence']);
+    echo $asciifier->asciify(new Sentence($sentence))->toWords();
+}
+?>
 </body>
 </html>

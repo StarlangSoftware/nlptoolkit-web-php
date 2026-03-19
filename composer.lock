@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1340de80ec5aa6547f279ed8bf9ec936",
+    "content-hash": "8c921805accaa7dc090630a5a9d5d74b",
     "packages": [],
     "packages-dev": [
         {
@@ -172,6 +172,58 @@
                 "source": "https://github.com/StarlangSoftware/Corpus-Php/tree/1.0.2"
             },
             "time": "2025-10-19T17:32:36+00:00"
+        },
+        {
+            "name": "olcaytaner/deasciifier",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/TurkishDeasciifier-Php.git",
+                "reference": "85b485e83d33cc61a1d6b494dca4b84883cfcc11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/TurkishDeasciifier-Php/zipball/85b485e83d33cc61a1d6b494dca4b84883cfcc11",
+                "reference": "85b485e83d33cc61a1d6b494dca4b84883cfcc11",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "olcaytaner/corpus": "1.0.0",
+                "olcaytaner/datastructure": "1.0.1",
+                "olcaytaner/dictionary": "1.0.0",
+                "olcaytaner/morphologicalanalysis": "1.0.1",
+                "olcaytaner/ngram": "1.0.0",
+                "olcaytaner/util": "1.0.2",
+                "olcaytaner/xmlparser": "1.0.1",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\Deasciifier\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Olcay Taner YILDIZ",
+                    "email": "olcay.yildiz@ozyegin.edu.tr",
+                    "homepage": "https://www.ozyegin.edu.tr/tr/akademik-kadro/olcayyildiz"
+                }
+            ],
+            "description": "Turkish Deasciifier library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/TurkishDeasciifier-Php/issues",
+                "source": "https://github.com/StarlangSoftware/TurkishDeasciifier-Php/tree/1.0.2"
+            },
+            "time": "2026-03-19T20:29:59+00:00"
         },
         {
             "name": "olcaytaner/dictionary",
