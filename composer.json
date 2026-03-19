@@ -18,6 +18,8 @@
   "require-dev": {
     "phpunit/phpunit": "11.4.0",
     "olcaytaner/deasciifier": "1.0.2",
+    "olcaytaner/datastructure": "1.0.1",
+    "olcaytaner/ngram": "1.0.0",
     "olcaytaner/dictionary": "1.0.1",
     "olcaytaner/morphologicalanalysis": "1.0.1",
     "olcaytaner/framenet": "1.0.1",

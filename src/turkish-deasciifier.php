@@ -85,31 +85,43 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>NlpToolkit</title>
+    <title>Turkish Deasciifier</title>
 </head>
-<span class="badge">NlpToolkit</span>
 <body>
-<div class="container">
-<h2>Turkish Resources</h2>
-    <ul>
-        <li><a href="src/turkish-framenet.php">FrameNet</a></li>
-        <li><a href="src/turkish-propbank.php">PropBank</a></li>
-        <li><a href="src/turkish-wordnet.php">WordNet</a></li>
-        <li><a href="src/turkish-sentinet.php">SentiNet</a></li>
-        <li><a href="src/turkish-dictionary.php">Dictionary</a></li>
-        <li><a href="src/turkish-morphological-lexicon.php">Morphological Lexicon</a></li>
-    </ul>
-<h2>Turkish Processing</h2>
-    <ul>
-        <li><a href="turkish-morphological-analysis.html">Morphological Analysis</a></li>
-        <li><a href="src/turkish-asciifier.php">Asciifier</a></li>
-        <li><a href="src/turkish-deasciifier.php">Deasciifier</a></li>
-    </ul>
-<h2>English Resources</h2>
-    <ul>
-        <li><a href="src/english-propbank.php">PropBank</a></li>
-        <li><a href="src/english-wordnet.php">WordNet</a></li>
-    </ul>
-</div>
+<?php
+
+use olcaytaner\Corpus\Sentence;
+use olcaytaner\Deasciifier\SimpleDeasciifier;
+use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+ini_set('memory_limit', '1024M');
+$fsmCache = "fsm.cache";
+if (file_exists($fsmCache)) {
+    $fsm = unserialize(file_get_contents($fsmCache));
+} else {
+    $fsm = new FsmMorphologicalAnalyzer();
+    file_put_contents($fsmCache, serialize($fsm));
+}
+$deasciifierCache = "deasciifier.cache";
+if (file_exists($deasciifierCache)) {
+    $deasciifier = unserialize(file_get_contents($deasciifierCache));
+} else {
+    $deasciifier = new SimpleDeasciifier($fsm);
+    file_put_contents($deasciifierCache, serialize($deasciifier));
+}
+include 'functions.php';
+?>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <label for="sentence">Sentence:</label>
+    <input type="text" id="sentence" name="sentence" size="100" required><br><br>
+    <input type="submit" name="submit_deasciifier" value="Deasciifier">
+</form>
+<?php
+if (isset($_POST['submit_deasciifier'])) {
+    $sentence = htmlspecialchars($_POST['sentence']);
+    echo $deasciifier->deasciify(new Sentence($sentence))->toWords();
+}
+?>
 </body>
 </html>

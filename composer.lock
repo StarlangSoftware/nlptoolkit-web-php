@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c921805accaa7dc090630a5a9d5d74b",
+    "content-hash": "fae0d0a0a156d34a83ab9b063bfb711c",
     "packages": [],
     "packages-dev": [
         {
@@ -172,6 +172,45 @@
                 "source": "https://github.com/StarlangSoftware/Corpus-Php/tree/1.0.2"
             },
             "time": "2025-10-19T17:32:36+00:00"
+        },
+        {
+            "name": "olcaytaner/datastructure",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/DataStructure-Php.git",
+                "reference": "c462e7e151ef981c3e8fe52a2721d2be1e09ec0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/DataStructure-Php/zipball/c462e7e151ef981c3e8fe52a2721d2be1e09ec0c",
+                "reference": "c462e7e151ef981c3e8fe52a2721d2be1e09ec0c",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\DataStructure\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "y"
+                }
+            ],
+            "description": "Data Structure Library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/DataStructure-Php/issues",
+                "source": "https://github.com/StarlangSoftware/DataStructure-Php/tree/1.0.1"
+            },
+            "time": "2025-01-08T08:08:22+00:00"
         },
         {
             "name": "olcaytaner/deasciifier",
@@ -364,6 +403,49 @@
                 "source": "https://github.com/StarlangSoftware/TurkishMorphologicalAnalysis-Php/tree/1.0.1"
             },
             "time": "2025-10-11T09:45:20+00:00"
+        },
+        {
+            "name": "olcaytaner/ngram",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/NGram-Php.git",
+                "reference": "eda549ee7c95a6a51157c1b8fb372d6b9c244d70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/NGram-Php/zipball/eda549ee7c95a6a51157c1b8fb372d6b9c244d70",
+                "reference": "eda549ee7c95a6a51157c1b8fb372d6b9c244d70",
+                "shasum": ""
+            },
+            "require-dev": {
+                "olcaytaner/datastructure": "1.0.1",
+                "olcaytaner/math": "1.0.0",
+                "olcaytaner/sampling": "1.0.0",
+                "olcaytaner/util": "1.0.0",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\NGram\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "y"
+                }
+            ],
+            "description": "Simple NGram library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/NGram-Php/issues",
+                "source": "https://github.com/StarlangSoftware/NGram-Php/tree/1.0.0"
+            },
+            "time": "2025-02-27T20:30:22+00:00"
         },
         {
             "name": "olcaytaner/propbank",
