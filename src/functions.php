@@ -59,6 +59,17 @@ function create_table_for_id_search(string $synsetId, WordNet $wordNet): string
     return $display;
 }
 
+function create_prop_bank_table(FramesetList $turkishPropBank, string $synsetId): string
+{
+    $display = "<table> <tr> <th>Arg</th> <th>Function</th> <th>Description</th> </tr>";
+    $frameSet = $turkishPropBank->getFrameSet($synsetId);
+    foreach ($frameSet->getFramesetArguments() as $arg) {
+        $display .= "<tr><td>" . $arg->getArgumentType() . "</td><td>" . $arg->getFunction() . "</td><td>" . $arg->getDefinition() . "</td></tr>";
+    }
+    $display .= "</table>";
+    return $display;
+}
+
 function create_prop_bank_table_for_multiple_synsets(FramesetList $turkishPropBank, array $synsets): string
 {
     $display = "<table> <tr> <th>Id</th> <th>Definition</th> <th>Arg</th> <th>Function</th> <th>Description</th> </tr>";

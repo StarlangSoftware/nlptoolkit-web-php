@@ -85,31 +85,54 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>NlpToolkit</title>
+    <title>Turkish PropBank</title>
 </head>
-<span class="badge">NlpToolkit</span>
 <body>
-<div class="container">
-<h2>Turkish Resources</h2>
-    <ul>
-        <li><a href="src/turkish-framenet.php">FrameNet</a></li>
-        <li><a href="src/turkish-propbank.php">PropBank</a></li>
-        <li><a href="turkish-wordnet.html">WordNet</a></li>
-        <li><a href="turkish-sentinet.html">SentiNet</a></li>
-        <li><a href="turkish-dictionary.html">Dictionary</a></li>
-        <li><a href="turkish-morphological-lexicon.html">Morphological Lexicon</a></li>
-    </ul>
-<h2>Turkish Processing</h2>
-    <ul>
-        <li><a href="turkish-morphological-analysis.html">Morphological Analysis</a></li>
-        <li><a href="turkish-asciifier.html">Asciifier</a></li>
-        <li><a href="turkish-deasciifier.html">Deasciifier</a></li>
-    </ul>
-<h2>English Resources</h2>
-    <ul>
-        <li><a href="english-propbank.html">PropBank</a></li>
-        <li><a href="english-wordnet.html">WordNet</a></li>
-    </ul>
-</div>
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+ini_set('memory_limit', '1024M');
+use olcaytaner\Framenet\FrameNet;
+use olcaytaner\Propbank\FramesetList;
+use olcaytaner\WordNet\WordNet;
+$propBankCache = "propbank.cache";
+if (file_exists($propBankCache)) {
+    $turkishPropBank = unserialize(file_get_contents($propBankCache));
+} else {
+    $turkishPropBank = new FramesetList();
+    file_put_contents($propBankCache, serialize($turkishPropBank));
+}
+$wordNetCache = "wordnet.cache";
+if (file_exists($wordNetCache)) {
+    $turkishWordNet = unserialize(file_get_contents($wordNetCache));
+} else {
+    $turkishWordNet = new WordNet();
+    file_put_contents($wordNetCache, serialize($turkishWordNet));
+}
+include 'functions.php';
+?>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <label for="verb_name">Verb:</label>
+    <input type="text" id="verb_name" name="verb_name" required><br><br>
+    <input type="submit" name="submit_propbank_verb_search" value="Find Verb">
+</form>
+<?php
+if (isset($_POST['submit_propbank_verb_search'])) {
+    $verb_name = htmlspecialchars($_POST['verb_name']);
+    $synsets = $turkishWordNet->getSynSetsWithLiteral($verb_name);
+    echo create_prop_bank_table_for_multiple_synsets($turkishPropBank, $synsets);
+}
+?>
+<br>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <label for="verb_id">Verb SynSet Id:</label>
+    <input type="text" id="verb_id" name="verb_id" required><br><br>
+    <input type="submit" name="submit_propbank_verb_id_search" value="Find Verb">
+</form>
+<?php
+if (isset($_POST['submit_propbank_verb_id_search'])) {
+    $verb_id = htmlspecialchars($_POST['verb_id']);
+    echo create_prop_bank_table($turkishPropBank, $verb_id);
+}
+?>
 </body>
 </html>
