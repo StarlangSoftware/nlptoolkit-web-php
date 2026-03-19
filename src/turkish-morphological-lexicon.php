@@ -85,31 +85,39 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>NlpToolkit</title>
+    <title>Turkish Morphological Lexicon</title>
 </head>
-<span class="badge">NlpToolkit</span>
 <body>
-<div class="container">
-<h2>Turkish Resources</h2>
-    <ul>
-        <li><a href="src/turkish-framenet.php">FrameNet</a></li>
-        <li><a href="src/turkish-propbank.php">PropBank</a></li>
-        <li><a href="src/turkish-wordnet.php">WordNet</a></li>
-        <li><a href="src/turkish-sentinet.php">SentiNet</a></li>
-        <li><a href="src/turkish-dictionary.php">Dictionary</a></li>
-        <li><a href="src/turkish-morphological-lexicon.php">Morphological Lexicon</a></li>
-    </ul>
-<h2>Turkish Processing</h2>
-    <ul>
-        <li><a href="turkish-morphological-analysis.html">Morphological Analysis</a></li>
-        <li><a href="turkish-asciifier.html">Asciifier</a></li>
-        <li><a href="turkish-deasciifier.html">Deasciifier</a></li>
-    </ul>
-<h2>English Resources</h2>
-    <ul>
-        <li><a href="src/english-propbank.php">PropBank</a></li>
-        <li><a href="src/english-wordnet.php">WordNet</a></li>
-    </ul>
-</div>
+<?php
+
+use olcaytaner\Dictionary\Dictionary\TxtDictionary;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+ini_set('memory_limit', '1024M');
+$dictionaryCache = "dictionary.cache";
+if (file_exists($dictionaryCache)) {
+    $dictionary = unserialize(file_get_contents($dictionaryCache));
+} else {
+    $dictionary = new TxtDictionary();
+    file_put_contents($dictionaryCache, serialize($dictionary));
+}
+include 'functions.php';
+?>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <label for="morphology_search_word">Word:</label>
+    <input type="text" id="morphology_search_word" name="morphology_search_word" required><br><br>
+    <input type="submit" name="submit_morphology_search" value="Find Morphology">
+</form>
+<?php
+if (isset($_POST['submit_morphology_search'])) {
+    $word = htmlspecialchars($_POST['morphology_search_word']);
+    $txtWord = $dictionary->getWordWithName($word);
+    if ($txtWord != null) {
+        echo $txtWord->getMorphology();
+    } else {
+        echo $txtWord;
+    }
+}
+?>
 </body>
 </html>
