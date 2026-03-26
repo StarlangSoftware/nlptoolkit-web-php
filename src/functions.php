@@ -29,13 +29,17 @@ function pos_to_string(Pos $pos): string
 
 function create_table_for_word_search(string $word, WordNet $wordNet): string
 {
-    $display = "<table> <tr> <th>Id</th> <th>Pos</th> <th>Definition</th> <th>Synonyms</th> </tr>";
+    $display = "<table> <tr> <th>Id</th> <th>Pos</th> <th>Definition</th> <th>Synonyms</th> <th>Wiki</th> </tr>";
     $synSetList = $wordNet->getSynSetsWithLiteral($word);
     foreach ($synSetList as $synSet) {
         for ($j = 0; $j < $synSet->getSynonym()->literalSize(); $j++) {
             if ($synSet->getSynonym()->getLiteral($j)->getName() === $word) {
                 $display .= "<tr><td>" . $synSet->getId() . "</td><td>" . pos_to_string($synSet->getPos()) . "</td><td>" . $synSet->getDefinition() . "</td><td>";
-                $display = create_synonym($display, $j, $synSet) . "</td></tr>";
+                if ($synSet->getWikiPage() != null){
+                    $display = create_synonym($display, $j, $synSet) . "</td><td>" . "<a href=\"" . $synSet->getWikiPage() . "\"> page </a></td></tr>";
+                } else {
+                    $display = create_synonym($display, $j, $synSet) . "</td><td></td></tr>";
+                }
                 break;
             }
         }
@@ -65,11 +69,15 @@ function create_table_for_synonym_search(string $synonymWord, WordNet $wordNet):
 
 function create_table_for_id_search(string $synsetId, WordNet $wordNet): string
 {
-    $display = "<table> <tr> <th>Pos</th> <th>Definition</th> <th>Synonyms</th> </tr>";
+    $display = "<table> <tr> <th>Pos</th> <th>Definition</th> <th>Synonyms</th> <th>Wiki</th> </tr>";
     $synSet = $wordNet->getSynSetWithId($synsetId);
     if ($synSet != null){
         $display .= "<tr><td>" . pos_to_string($synSet->getPos()) . "</td><td>" . $synSet->getDefinition() . "</td><td>";
-        $display = create_synonym($display, -1, $synSet) . "</td></tr>";
+        if ($synSet->getWikiPage() != null){
+            $display = create_synonym($display, -1, $synSet) . "</td><td>" . "<a href=\"" . $synSet->getWikiPage() . "\"> page </a></td></tr>";
+        } else {
+            $display = create_synonym($display, -1, $synSet) . "</td><td></td></tr>";
+        }
         $display .= "</table>";
     }
     return $display;
