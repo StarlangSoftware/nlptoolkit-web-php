@@ -1,0 +1,1 @@
+{english=what}{metaMorphemes=what}{universalDependency=0$ROOT}{slot=O}{posTag=WP} {english=is}{metaMorphemes=be}{universalDependency=1$COP}{slot=O}{posTag=AUX:VBZ} {english=restriction}{metaMorphemes=restriction}{universalDependency=1$NSUBJ}{slot=O}{posTag=NN} {english=ap80}{metaMorphemes=Ap80}{universalDependency=3$FLAT}{slot=B-restriction_code}{posTag=NNP}
