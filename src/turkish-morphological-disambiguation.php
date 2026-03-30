@@ -93,7 +93,7 @@
 use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', '4096M');
 $atis = new AnnotatedCorpus("../Atis/Turkish-Phrase");
 $boun = new AnnotatedCorpus("../Boun/Turkish-Phrase");
 $tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
