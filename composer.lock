@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fae0d0a0a156d34a83ab9b063bfb711c",
+    "content-hash": "a55e35cb53f5b5b0cf5fad395ddb16b2",
     "packages": [],
     "packages-dev": [
         {
@@ -124,6 +124,117 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
             },
             "time": "2025-12-06T11:56:16+00:00"
+        },
+        {
+            "name": "olcaytaner/annotatedsentence",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/AnnotatedSentence-Php.git",
+                "reference": "de887311a07d50cf46bb5ababc95a9eca274e7e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/AnnotatedSentence-Php/zipball/de887311a07d50cf46bb5ababc95a9eca274e7e2",
+                "reference": "de887311a07d50cf46bb5ababc95a9eca274e7e2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "olcaytaner/corpus": "1.0.2",
+                "olcaytaner/dependencyparser": "1.0.0",
+                "olcaytaner/dictionary": "1.0.1",
+                "olcaytaner/framenet": "1.0.1",
+                "olcaytaner/morphologicalanalysis": "1.0.1",
+                "olcaytaner/namedentityrecognition": "1.0.0",
+                "olcaytaner/propbank": "1.0.2",
+                "olcaytaner/sentinet": "1.0.0",
+                "olcaytaner/wordnet": "1.0.1",
+                "olcaytaner/xmlparser": "1.0.1",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\AnnotatedSentence\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Olcay Taner YILDIZ",
+                    "email": "olcay.yildiz@ozyegin.edu.tr",
+                    "homepage": "https://www.ozyegin.edu.tr/tr/akademik-kadro/olcayyildiz"
+                }
+            ],
+            "description": "Turkish Annotated Sentence library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/AnnotatedSentence-Php/issues",
+                "source": "https://github.com/StarlangSoftware/AnnotatedSentence-Php/tree/1.0.5"
+            },
+            "time": "2025-10-19T17:37:36+00:00"
+        },
+        {
+            "name": "olcaytaner/annotatedtree",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/AnnotatedTree-Php.git",
+                "reference": "2acb67fb591371ac705d09d6c5c862fecf36e8e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/AnnotatedTree-Php/zipball/2acb67fb591371ac705d09d6c5c862fecf36e8e1",
+                "reference": "2acb67fb591371ac705d09d6c5c862fecf36e8e1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "olcaytaner/annotatedsentence": "1.0.5",
+                "olcaytaner/corpus": "1.0.2",
+                "olcaytaner/dependencyparser": "1.0.0",
+                "olcaytaner/dictionary": "1.0.1",
+                "olcaytaner/framenet": "1.0.1",
+                "olcaytaner/morphologicalanalysis": "1.0.1",
+                "olcaytaner/namedentityrecognition": "1.0.0",
+                "olcaytaner/parsetree": "1.0.2",
+                "olcaytaner/propbank": "1.0.2",
+                "olcaytaner/sentinet": "1.0.0",
+                "olcaytaner/wordnet": "1.0.1",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\AnnotatedTree\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Olcay Taner YILDIZ",
+                    "email": "olcay.yildiz@ozyegin.edu.tr",
+                    "homepage": "https://www.ozyegin.edu.tr/tr/akademik-kadro/olcayyildiz"
+                }
+            ],
+            "description": "Turkish Annotated Tree library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/AnnotatedTree-Php/issues",
+                "source": "https://github.com/StarlangSoftware/AnnotatedTree-Php/tree/1.0.1"
+            },
+            "time": "2025-10-19T17:52:34+00:00"
         },
         {
             "name": "olcaytaner/corpus",
@@ -265,6 +376,56 @@
             "time": "2026-03-19T20:29:59+00:00"
         },
         {
+            "name": "olcaytaner/dependencyparser",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php.git",
+                "reference": "11be36f1e3ed5460fac0bd2e0451816ecf9726ee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/TurkishDependencyParser-Php/zipball/11be36f1e3ed5460fac0bd2e0451816ecf9726ee",
+                "reference": "11be36f1e3ed5460fac0bd2e0451816ecf9726ee",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "olcaytaner/corpus": "1.0.0",
+                "olcaytaner/datastructure": "1.0.1",
+                "olcaytaner/dictionary": "1.0.0",
+                "olcaytaner/morphologicalanalysis": "1.0.0",
+                "olcaytaner/xmlparser": "1.0.1",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\DependencyParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Olcay Taner YILDIZ",
+                    "email": "olcay.yildiz@ozyegin.edu.tr",
+                    "homepage": "https://www.ozyegin.edu.tr/tr/akademik-kadro/olcayyildiz"
+                }
+            ],
+            "description": "Dependency TreeBank library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php/issues",
+                "source": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php/tree/1.0.0"
+            },
+            "time": "2025-09-24T19:01:39+00:00"
+        },
+        {
             "name": "olcaytaner/dictionary",
             "version": "1.0.1",
             "source": {
@@ -313,16 +474,16 @@
         },
         {
             "name": "olcaytaner/framenet",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/StarlangSoftware/TurkishFrameNet-Php.git",
-                "reference": "4b59850c0cfdd5fefda52132e4743730336352d7"
+                "reference": "706adefcc263f317ac85250cca0cab05710eed1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/StarlangSoftware/TurkishFrameNet-Php/zipball/4b59850c0cfdd5fefda52132e4743730336352d7",
-                "reference": "4b59850c0cfdd5fefda52132e4743730336352d7",
+                "url": "https://api.github.com/repos/StarlangSoftware/TurkishFrameNet-Php/zipball/706adefcc263f317ac85250cca0cab05710eed1e",
+                "reference": "706adefcc263f317ac85250cca0cab05710eed1e",
                 "shasum": ""
             },
             "require-dev": {
@@ -349,9 +510,9 @@
             "description": "Simple Framenet library",
             "support": {
                 "issues": "https://github.com/StarlangSoftware/TurkishFrameNet-Php/issues",
-                "source": "https://github.com/StarlangSoftware/TurkishFrameNet-Php/tree/1.0.1"
+                "source": "https://github.com/StarlangSoftware/TurkishFrameNet-Php/tree/1.0.2"
             },
-            "time": "2025-08-22T06:44:21+00:00"
+            "time": "2026-03-30T17:49:13+00:00"
         },
         {
             "name": "olcaytaner/morphologicalanalysis",
@@ -403,6 +564,52 @@
                 "source": "https://github.com/StarlangSoftware/TurkishMorphologicalAnalysis-Php/tree/1.0.1"
             },
             "time": "2025-10-11T09:45:20+00:00"
+        },
+        {
+            "name": "olcaytaner/namedentityrecognition",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/TurkishNamedEntityRecognition-Php.git",
+                "reference": "6d9884ea363da3ae7284b7abf499cc80b2edb62b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/TurkishNamedEntityRecognition-Php/zipball/6d9884ea363da3ae7284b7abf499cc80b2edb62b",
+                "reference": "6d9884ea363da3ae7284b7abf499cc80b2edb62b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "olcaytaner/corpus": "1.0.0",
+                "olcaytaner/datastructure": "1.0.1",
+                "olcaytaner/dictionary": "1.0.0",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\NamedEntityRecognition\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "y"
+                }
+            ],
+            "description": "Named Entity Recognition library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/TurkishNamedEntityRecognition-Php/issues",
+                "source": "https://github.com/StarlangSoftware/TurkishNamedEntityRecognition-Php/tree/1.0.0"
+            },
+            "time": "2025-05-17T21:01:02+00:00"
         },
         {
             "name": "olcaytaner/ngram",

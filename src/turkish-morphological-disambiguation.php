@@ -85,32 +85,43 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>Turkish Morphological Analysis</title>
+    <title>Turkish Morphological Disambiguation Datasets</title>
 </head>
 <body>
 <?php
-use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
+
+use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('memory_limit', '1024M');
-$fsmCache = "fsm.cache";
-if (file_exists($fsmCache)) {
-    $fsm = unserialize(file_get_contents($fsmCache));
-} else {
-    $fsm = new FsmMorphologicalAnalyzer();
-    file_put_contents($fsmCache, serialize($fsm));
-}
+$atis = new AnnotatedCorpus("../Atis/Turkish-Phrase");
+$boun = new AnnotatedCorpus("../Boun/Turkish-Phrase");
+$tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
+$gb = new AnnotatedCorpus("../Gb/Turkish-Phrase");
+$imst = new AnnotatedCorpus("../Imst/Turkish-Phrase");
+$kenet = new AnnotatedCorpus("../Kenet-Examples/Turkish-Phrase");
+$penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
+$penn20 = new AnnotatedCorpus("../Penn-Treebank-20/Turkish-Phrase");
+$pud = new AnnotatedCorpus("../Pud/Turkish-Phrase");
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="sentence">Sentence:</label>
-    <input type="text" id="sentence" name="sentence" size="100" required><br><br>
-    <input type="submit" name="submit_morphological_analysis" value="Morphological Analysis">
+    <label for="word">Search word:</label>
+    <input type="text" id="word" name="word" size="100" required><br><br>
+    <input type="submit" name="submit_word" value="Morphological Disambiguation">
 </form>
 <?php
-if (isset($_POST['submit_morphological_analysis'])) {
-    $sentence = htmlspecialchars($_POST['sentence']);
-    echo create_morphological_analysis_table($fsm, $sentence);
+if (isset($_POST['submit_word'])) {
+    $word = $_POST['word'];
+    echo create_morphology_table("Atis", $atis, $word);
+    echo create_morphology_table("Boun", $boun, $word);
+    echo create_morphology_table("Tourism", $tourism, $word);
+    echo create_morphology_table("Gb", $gb, $word);
+    echo create_morphology_table("Imst", $imst, $word);
+    echo create_morphology_table("Kenet", $kenet, $word);
+    echo create_morphology_table("Penn-Treebank-15", $penn15, $word);
+    echo create_morphology_table("Penn-Treebank-20", $penn20, $word);
+    echo create_morphology_table("Pud", $pud, $word);
 }
 ?>
 </body>

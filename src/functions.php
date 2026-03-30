@@ -1,9 +1,13 @@
 <?php
 
+use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
+use olcaytaner\AnnotatedSentence\AnnotatedSentence;
+use olcaytaner\AnnotatedSentence\AnnotatedWord;
 use olcaytaner\Corpus\Sentence;
 use olcaytaner\Dictionary\Dictionary\Dictionary;
 use olcaytaner\Dictionary\Dictionary\Pos;
 use olcaytaner\Dictionary\Dictionary\TxtWord;
+use olcaytaner\Dictionary\Dictionary\Word;
 use olcaytaner\Framenet\Frame;
 use olcaytaner\Framenet\FrameNet;
 use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
@@ -25,6 +29,51 @@ function pos_to_string(Pos $pos): string
         Pos::PRONOUN => "PRONOUN",
         default => "",
     };
+}
+
+function matches_word(Word $currentWord, string $word): bool{
+    return $currentWord->getName() == $word;
+}
+
+function search_corpus_for_word(AnnotatedCorpus $corpus, string $word): array{
+    $sentences = [];
+    for ($i = 0; $i < $corpus->sentenceCount(); $i++) {
+        $sentence = $corpus->getSentence($i);
+        for ($j = 0; $j < $sentence->wordCount(); $j++) {
+            $currentWord = $sentence->getWord($j);
+            if (matches_word($currentWord, $word)) {
+                $sentences[] = $sentence;
+                break;
+            }
+        }
+    }
+    return $sentences;
+}
+
+function create_morphology_table(string $corpusName, AnnotatedCorpus $corpus, string $word): string{
+    $sentences = search_corpus_for_word($corpus, $word);
+    if (count($sentences) > 0) {
+        $display = "<h1>" . $corpusName ."</h1>";
+        foreach ($sentences as $sentence) {
+            if ($sentence instanceof AnnotatedSentence){
+                $display .= "<h2>" . substr($sentence->getFileName(), strrpos($sentence->getFileName(), "/") + 1) . "</h2>";
+                $display .= "<table>";
+                for ($j = 0; $j < $sentence->wordCount(); $j++) {
+                    $currentWord = $sentence->getWord($j);
+                    if ($currentWord instanceof AnnotatedWord) {
+                        if (matches_word($currentWord, $word)) {
+                            $display .= "<tr><td><b><font color='red'>". $currentWord->getName() . "</font></b></td><td><b><font color='red'>" . $currentWord->getParse() . "</font></b></td></tr>";
+                        } else {
+                            $display .= "<tr><td>". $currentWord->getName() . "</td><td>" . $currentWord->getParse() . "</td></tr>";
+                        }
+                    }
+                }
+                $display .= "</table>";
+            }
+        }
+        return $display;
+    }
+    return "";
 }
 
 function create_table_for_word_search(string $word, WordNet $wordNet): string
