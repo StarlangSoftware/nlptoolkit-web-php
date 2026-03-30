@@ -94,69 +94,15 @@ use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('memory_limit', '4096M');
-$atiscache = "atis.cache";
-if (file_exists($atiscache)) {
-    $atis = unserialize(file_get_contents($atiscache));
-} else {
-    $atis = new AnnotatedCorpus("../Atis/Turkish-Phrase");
-    file_put_contents($atiscache, serialize($atis));
-}
-$bouncache = "boun.cache";
-if (file_exists($bouncache)) {
-    $boun = unserialize(file_get_contents($bouncache));
-} else {
-    $boun = new AnnotatedCorpus("../Boun/Turkish-Phrase");
-    file_put_contents($bouncache, serialize($boun));
-}
-$tourismcache = "tourism.cache";
-if (file_exists($tourismcache)) {
-    $tourism = unserialize(file_get_contents($tourismcache));
-} else {
-    $tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
-    file_put_contents($tourismcache, serialize($tourism));
-}
-$gbcache = "gb.cache";
-if (file_exists($gbcache)) {
-    $gb = unserialize(file_get_contents($gbcache));
-} else {
-    $gb = new AnnotatedCorpus("../Gb/Turkish-Phrase");
-    file_put_contents($gbcache, serialize($gb));
-}
-$imstcache = "imst.cache";
-if (file_exists($imstcache)) {
-    $imst = unserialize(file_get_contents($imstcache));
-} else {
-    $imst = new AnnotatedCorpus("../Imst/Turkish-Phrase");
-    file_put_contents($imstcache, serialize($imst));
-}
-$kenetcache = "kenet.cache";
-if (file_exists($kenetcache)) {
-    $kenet = unserialize(file_get_contents($kenetcache));
-} else {
-    $kenet = new AnnotatedCorpus("../Kenet-Examples/Turkish-Phrase");
-    file_put_contents($kenetcache, serialize($kenet));
-}
-$penn15cache = "penn15.cache";
-if (file_exists($penn15cache)) {
-    $penn15 = unserialize(file_get_contents($penn15cache));
-} else {
-    $penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
-    file_put_contents($penn15cache, serialize($penn15));
-}
-$penn20cache = "penn20.cache";
-if (file_exists($penn20cache)) {
-    $penn20 = unserialize(file_get_contents($penn20cache));
-} else {
-    $penn20 = new AnnotatedCorpus("../Penn-Treebank-20/Turkish-Phrase");
-    file_put_contents($penn20cache, serialize($penn20));
-}
-$pudcache = "pud.cache";
-if (file_exists($pudcache)) {
-    $pud = unserialize(file_get_contents($pudcache));
-} else {
-    $pud = new AnnotatedCorpus("../Pud/Turkish-Phrase");
-    file_put_contents($pudcache, serialize($pud));
-}
+$atis = new AnnotatedCorpus("../Atis/Turkish-Phrase");
+$boun = new AnnotatedCorpus("../Boun/Turkish-Phrase");
+$tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
+$gb = new AnnotatedCorpus("../Gb/Turkish-Phrase");
+$imst = new AnnotatedCorpus("../Imst/Turkish-Phrase");
+$kenet = new AnnotatedCorpus("../Kenet-Examples/Turkish-Phrase");
+$penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
+$penn20 = new AnnotatedCorpus("../Penn-Treebank-20/Turkish-Phrase");
+$pud = new AnnotatedCorpus("../Pud/Turkish-Phrase");
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
