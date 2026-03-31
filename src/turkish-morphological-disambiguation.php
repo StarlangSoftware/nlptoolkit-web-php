@@ -94,15 +94,6 @@ use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('memory_limit', '4096M');
-$atis = new AnnotatedCorpus("../Atis/Turkish-Phrase");
-$boun = new AnnotatedCorpus("../Boun/Turkish-Phrase");
-$tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
-$gb = new AnnotatedCorpus("../Gb/Turkish-Phrase");
-$imst = new AnnotatedCorpus("../Imst/Turkish-Phrase");
-$kenet = new AnnotatedCorpus("../Kenet-Examples/Turkish-Phrase");
-$penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
-$penn20 = new AnnotatedCorpus("../Penn-Treebank-20/Turkish-Phrase");
-$pud = new AnnotatedCorpus("../Pud/Turkish-Phrase");
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
