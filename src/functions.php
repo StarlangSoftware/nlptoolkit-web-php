@@ -47,6 +47,10 @@ function contains_word(AnnotatedWord $currentWord, string $word): bool{
     return str_contains($currentWord->getName(), $word);
 }
 
+function matches_pos(AnnotatedWord $currentWord, string $word): bool{
+    return $currentWord->getUniversalDependencyPos() == $word;
+}
+
 function matches(AnnotatedWord $currentWord, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
@@ -58,6 +62,8 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return contains_word($currentWord, $word);
         case "tag":
             return contains_tag($currentWord, $word);
+        case "pos":
+            return matches_pos($currentWord, $word);
     }
 }
 
@@ -74,6 +80,32 @@ function search_corpus_for_word(AnnotatedCorpus $corpus, string $word, string $s
         }
     }
     return $sentences;
+}
+
+function create_pos_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
+    $sentences = search_corpus_for_word($corpus, $word, $search_type);
+    if (count($sentences) > 0) {
+        $display = "<h1>" . $corpusName ."</h1>";
+        foreach ($sentences as $sentence) {
+            if ($sentence instanceof AnnotatedSentence){
+                $display .= "<h2>" . substr($sentence->getFileName(), strrpos($sentence->getFileName(), "/") + 1) . "</h2>";
+                $display .= "<table>";
+                for ($j = 0; $j < $sentence->wordCount(); $j++) {
+                    $currentWord = $sentence->getWord($j);
+                    if ($currentWord instanceof AnnotatedWord) {
+                        if (matches($currentWord, $word, $search_type)) {
+                            $display .= "<tr><td><b><span style=\"color: red; \">" . $currentWord->getName() . "</span></b></td><td><b><span style=\"color: red; \">" . $currentWord->getUniversalDependencyPos() . "</span></b></td></tr>";
+                        } else {
+                            $display .= "<tr><td>". $currentWord->getName() . "</td><td>" . $currentWord->getUniversalDependencyPos() . "</td></tr>";
+                        }
+                    }
+                }
+                $display .= "</table>";
+            }
+        }
+        return $display;
+    }
+    return "";
 }
 
 function create_morphology_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
