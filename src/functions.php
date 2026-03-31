@@ -31,17 +31,43 @@ function pos_to_string(Pos $pos): string
     };
 }
 
-function matches_word(Word $currentWord, string $word): bool{
+function matches_word(AnnotatedWord $currentWord, string $word): bool{
     return $currentWord->getName() == $word;
 }
 
-function search_corpus_for_word(AnnotatedCorpus $corpus, string $word): array{
+function matches_root_word(AnnotatedWord $currentWord, string $word): bool{
+    return $currentWord->getParse()->getWord()->getName() == $word;
+}
+
+function contains_tag(AnnotatedWord $currentWord, string $word): bool{
+    return str_contains($currentWord->getParse(), $word);
+}
+
+function contains_word(AnnotatedWord $currentWord, string $word): bool{
+    return str_contains($currentWord->getName(), $word);
+}
+
+function matches(AnnotatedWord $currentWord, string $word, string $search_type): bool{
+    switch ($search_type) {
+        default:
+        case "full":
+            return matches_word($currentWord, $word);
+        case "root":
+            return matches_root_word($currentWord, $word);
+        case "contains":
+            return contains_word($currentWord, $word);
+        case "tag":
+            return contains_tag($currentWord, $word);
+    }
+}
+
+function search_corpus_for_word(AnnotatedCorpus $corpus, string $word, string $search_type): array{
     $sentences = [];
     for ($i = 0; $i < $corpus->sentenceCount(); $i++) {
         $sentence = $corpus->getSentence($i);
         for ($j = 0; $j < $sentence->wordCount(); $j++) {
             $currentWord = $sentence->getWord($j);
-            if (matches_word($currentWord, $word)) {
+            if ($currentWord instanceof AnnotatedWord && matches($currentWord, $word, $search_type)) {
                 $sentences[] = $sentence;
                 break;
             }
@@ -50,8 +76,8 @@ function search_corpus_for_word(AnnotatedCorpus $corpus, string $word): array{
     return $sentences;
 }
 
-function create_morphology_table(string $corpusName, AnnotatedCorpus $corpus, string $word): string{
-    $sentences = search_corpus_for_word($corpus, $word);
+function create_morphology_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
+    $sentences = search_corpus_for_word($corpus, $word, $search_type);
     if (count($sentences) > 0) {
         $display = "<h1>" . $corpusName ."</h1>";
         foreach ($sentences as $sentence) {
@@ -61,8 +87,8 @@ function create_morphology_table(string $corpusName, AnnotatedCorpus $corpus, st
                 for ($j = 0; $j < $sentence->wordCount(); $j++) {
                     $currentWord = $sentence->getWord($j);
                     if ($currentWord instanceof AnnotatedWord) {
-                        if (matches_word($currentWord, $word)) {
-                            $display .= "<tr><td><b><font color='red'>". $currentWord->getName() . "</font></b></td><td><b><font color='red'>" . $currentWord->getParse() . "</font></b></td></tr>";
+                        if (matches($currentWord, $word, $search_type)) {
+                            $display .= "<tr><td><b><span style=\"color: red; \">" . $currentWord->getName() . "</span></b></td><td><b><span style=\"color: red; \">" . $currentWord->getParse() . "</span></b></td></tr>";
                         } else {
                             $display .= "<tr><td>". $currentWord->getName() . "</td><td>" . $currentWord->getParse() . "</td></tr>";
                         }
@@ -148,7 +174,7 @@ function create_prop_bank_table_for_multiple_synsets(FramesetList $turkishPropBa
     $display = "<table> <tr> <th>Id</th> <th>Definition</th> <th>Arg</th> <th>Function</th> <th>Description</th> </tr>";
     foreach ($synsets as $synSet) {
         $frameSet = $turkishPropBank->getFrameSet($synSet->getId());
-        if ($frameSet != null && $frameSet != null) {
+        if ($frameSet != null) {
             foreach ($frameSet->getFramesetArguments() as $arg) {
                 $display .= "<tr><td>" . $synSet->getId() . "</td><td>" . $synSet->getDefinition() . "</td><td>" . $arg->getArgumentType() . "</td><td>" . $arg->getFunction() . "</td><td>" . $arg->getDefinition() . "</td></tr>";
             }

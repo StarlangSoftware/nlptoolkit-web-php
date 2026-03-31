@@ -106,6 +106,34 @@ $pud = new AnnotatedCorpus("../Pud/Turkish-Phrase");
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <p>Search type:</p>
+    <input type="radio" id="word" name="search_type" value="full" checked="checked">
+    <label for="word">Full Match</label><br>
+    <input type="radio" id="root" name="search_type" value="root">
+    <label for="root">Root Match</label><br>
+    <input type="radio" id="contains" name="search_type" value="contains">
+    <label for="contains">Contains</label><br>
+    <input type="radio" id="tag" name="search_type" value="tag">
+    <label for="tag">Contains Tag</label><br>
+    <br>
+    <p>Search dataset:</p>
+    <input type="radio" id="atis" name="dataset" value="atis" checked="checked">
+    <label for="atis">Atis</label><br>
+    <input type="radio" id="boun" name="dataset" value="boun">
+    <label for="boun">Boun</label><br>
+    <input type="radio" id="tourism" name="dataset" value="tourism">
+    <label for="tourism">Tourism</label><br>
+    <input type="radio" id="gb" name="dataset" value="gb">
+    <label for="gb">Gb</label><br>
+    <input type="radio" id="imst" name="dataset" value="imst">
+    <label for="imst">Imst</label><br>
+    <input type="radio" id="kenet" name="dataset" value="kenet">
+    <label for="kenet">Kenet</label><br>
+    <input type="radio" id="penn" name="dataset" value="penn">
+    <label for="penn">Penn</label><br>
+    <input type="radio" id="pud" name="dataset" value="pud">
+    <label for="pud">Pud</label><br>
+    <br>
     <label for="word">Search word:</label>
     <input type="text" id="word" name="word" size="100" required><br><br>
     <input type="submit" name="submit_word" value="Morphological Disambiguation">
@@ -113,15 +141,44 @@ include 'functions.php';
 <?php
 if (isset($_POST['submit_word'])) {
     $word = $_POST['word'];
-    echo create_morphology_table("Atis", $atis, $word);
-    echo create_morphology_table("Boun", $boun, $word);
-    echo create_morphology_table("Tourism", $tourism, $word);
-    echo create_morphology_table("Gb", $gb, $word);
-    echo create_morphology_table("Imst", $imst, $word);
-    echo create_morphology_table("Kenet", $kenet, $word);
-    echo create_morphology_table("Penn-Treebank-15", $penn15, $word);
-    echo create_morphology_table("Penn-Treebank-20", $penn20, $word);
-    echo create_morphology_table("Pud", $pud, $word);
+    $search_type = $_POST['search_type'];
+    $dataset = $_POST['dataset'];
+    switch ($dataset) {
+        case "atis":
+            $atis = new AnnotatedCorpus("../Atis/Turkish-Phrase");
+            echo create_morphology_table("Atis", $atis, $word, $search_type);
+            break;
+        case "boun":
+            $boun = new AnnotatedCorpus("../Boun/Turkish-Phrase");
+            echo create_morphology_table("Boun", $boun, $word, $search_type);
+            break;
+        case "tourism":
+            $tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
+            echo create_morphology_table("Tourism", $tourism, $word, $search_type);
+            break;
+        case "gb":
+            $gb = new AnnotatedCorpus("../Gb/Turkish-Phrase");
+            echo create_morphology_table("Gb", $gb, $word, $search_type);
+            break;
+        case "imst":
+            $imst = new AnnotatedCorpus("../Imst/Turkish-Phrase");
+            echo create_morphology_table("Imst", $imst, $word, $search_type);
+            break;
+        case "kenet":
+            $kenet = new AnnotatedCorpus("../Kenet-Examples/Turkish-Phrase");
+            echo create_morphology_table("Kenet", $kenet, $word, $search_type);
+            break;
+        case "penn":
+            $penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
+            $penn20 = new AnnotatedCorpus("../Penn-Treebank-20/Turkish-Phrase");
+            echo create_morphology_table("Penn-Treebank-15", $penn15, $word, $search_type);
+            echo create_morphology_table("Penn-Treebank-20", $penn20, $word, $search_type);
+            break;
+        case "pud":
+            $pud = new AnnotatedCorpus("../Pud/Turkish-Phrase");
+            echo create_morphology_table("Pud", $pud, $word, $search_type);
+            break;
+    }
 }
 ?>
 </body>
