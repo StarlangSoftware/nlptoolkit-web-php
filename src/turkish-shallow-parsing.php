@@ -113,6 +113,12 @@ include 'functions.php';
     <input type="radio" id="tourism" name="dataset" value="tourism">
     <label for="tourism">Tourism</label><br>
     <br>
+    <p>Display results:</p>
+    <input type="radio" id="column" name="display" value="column">
+    <label for="column">Column</label><br>
+    <input type="radio" id="row" name="display" value="row" checked="checked">
+    <label for="row">Row</label><br>
+    <br>
     <label for="word">Search word:</label>
     <input type="text" id="word" name="word" size="100" required><br><br>
     <input type="submit" name="submit_word" value="Shallow Parsing">
@@ -122,14 +128,15 @@ if (isset($_POST['submit_word'])) {
     $word = $_POST['word'];
     $search_type = $_POST['search_type'];
     $dataset = $_POST['dataset'];
+    $columnWise = $_POST['display'] == "column";
     switch ($dataset) {
         case "tourism":
             $tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
-            echo create_shallow_parse_table("Tourism", $tourism, $word, $search_type);
+            echo create_shallow_parse_table("Tourism", $tourism, $word, $search_type, $columnWise);
             break;
         case "penn":
             $penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
-            echo create_shallow_parse_table("Penn-Treebank-15", $penn15, $word, $search_type);
+            echo create_shallow_parse_table("Penn-Treebank-15", $penn15, $word, $search_type, $columnWise);
             break;
     }
 }
