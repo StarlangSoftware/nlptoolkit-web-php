@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e11b080afb52d16fb3769a5215e7e300",
+    "content-hash": "d2d04d261a6de330201473370faa79d3",
     "packages": [],
     "packages-dev": [
         {
@@ -127,16 +127,16 @@
         },
         {
             "name": "olcaytaner/annotatedsentence",
-            "version": "1.0.6",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/StarlangSoftware/AnnotatedSentence-Php.git",
-                "reference": "2ab4a469d61b9fbe4318e3493042f2ba26387b18"
+                "reference": "4f7cc5fd292df6a7599bd1d7e4651ac25a5fd268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/StarlangSoftware/AnnotatedSentence-Php/zipball/2ab4a469d61b9fbe4318e3493042f2ba26387b18",
-                "reference": "2ab4a469d61b9fbe4318e3493042f2ba26387b18",
+                "url": "https://api.github.com/repos/StarlangSoftware/AnnotatedSentence-Php/zipball/4f7cc5fd292df6a7599bd1d7e4651ac25a5fd268",
+                "reference": "4f7cc5fd292df6a7599bd1d7e4651ac25a5fd268",
                 "shasum": ""
             },
             "require": {
@@ -176,9 +176,9 @@
             "description": "Turkish Annotated Sentence library",
             "support": {
                 "issues": "https://github.com/StarlangSoftware/AnnotatedSentence-Php/issues",
-                "source": "https://github.com/StarlangSoftware/AnnotatedSentence-Php/tree/1.0.6"
+                "source": "https://github.com/StarlangSoftware/AnnotatedSentence-Php/tree/1.0.7"
             },
-            "time": "2026-03-31T10:03:32+00:00"
+            "time": "2026-03-31T12:47:22+00:00"
         },
         {
             "name": "olcaytaner/annotatedtree",

@@ -67,6 +67,10 @@ function matches_shallow_parse(AnnotatedWord $currentWord, string $word): bool{
     return $currentWord->getShallowParse() == $word;
 }
 
+function matches_sense(AnnotatedWord $currentWord, string $word): bool{
+    return $currentWord->getSemantic() == $word;
+}
+
 function matches(AnnotatedWord $currentWord, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
@@ -84,6 +88,8 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return matches_ner($currentWord, $word);
         case "shallowparse":
             return matches_shallow_parse($currentWord, $word);
+        case "sense":
+            return matches_sense($currentWord, $word);
     }
 }
 
@@ -100,6 +106,32 @@ function search_corpus_for_word(AnnotatedCorpus $corpus, string $word, string $s
         }
     }
     return $sentences;
+}
+
+function create_sense_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
+    $sentences = search_corpus_for_word($corpus, $word, $search_type);
+    if (count($sentences) > 0) {
+        $display = "<h1>" . $corpusName ."</h1>";
+        foreach ($sentences as $sentence) {
+            if ($sentence instanceof AnnotatedSentence){
+                $display .= "<h2>" . substr($sentence->getFileName(), strrpos($sentence->getFileName(), "/") + 1) . "</h2>";
+                $display .= "<table>";
+                for ($j = 0; $j < $sentence->wordCount(); $j++) {
+                    $currentWord = $sentence->getWord($j);
+                    if ($currentWord instanceof AnnotatedWord) {
+                        if (matches($currentWord, $word, $search_type)) {
+                            $display .= "<tr><td><b><span style=\"color: red; \">" . $currentWord->getName() . "</span></b></td><td><b><span style=\"color: red; \">" . $currentWord->getSemantic() . "</span></b></td></tr>";
+                        } else {
+                            $display .= "<tr><td>". $currentWord->getName() . "</td><td>" . $currentWord->getSemantic() . "</td></tr>";
+                        }
+                    }
+                }
+                $display .= "</table>";
+            }
+        }
+        return $display;
+    }
+    return "";
 }
 
 function create_shallow_parse_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
