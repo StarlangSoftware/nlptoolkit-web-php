@@ -97,26 +97,26 @@ ini_set('memory_limit', '4096M');
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <p>Search type:</p>
-    <input type="radio" id="word" name="search_type" value="full" checked="checked">
-    <label for="word">Full Match</label><br>
-    <input type="radio" id="root" name="search_type" value="root">
-    <label for="root">Root Match</label><br>
-    <input type="radio" id="contains" name="search_type" value="contains">
-    <label for="contains">Contains</label><br>
-    <input type="radio" id="ner" name="search_type" value="ner">
-    <label for="ner">NER Tag</label><br>
-    <br>
-    <p>Search dataset:</p>
-    <input type="radio" id="penn" name="dataset" value="penn">
-    <label for="penn">Penn</label><br>
-    <br>
-    <p>Display results:</p>
-    <input type="radio" id="column" name="display" value="column">
-    <label for="column">Column</label><br>
-    <input type="radio" id="row" name="display" value="row" checked="checked">
-    <label for="row">Row</label><br>
-    <br>
+    <table>
+        <tr><td><p>Search type:</p>
+                <input type="radio" id="word" name="search_type" value="full" checked="checked">
+                <label for="word">Full Match</label><br>
+                <input type="radio" id="root" name="search_type" value="root">
+                <label for="root">Root Match</label><br>
+                <input type="radio" id="contains" name="search_type" value="contains">
+                <label for="contains">Contains</label><br>
+                <input type="radio" id="ner" name="search_type" value="ner">
+                <label for="ner">NER Tag</label></td>
+            <td><p>Search dataset:</p>
+                <input type="radio" id="penn" name="dataset" value="penn">
+                <label for="penn">Penn</label></td>
+            <td><p>Display results:</p>
+                <input type="radio" id="column" name="display" value="column">
+                <label for="column">Column</label><br>
+                <input type="radio" id="row" name="display" value="row" checked="checked">
+                <label for="row">Row</label><br>
+            </td></tr>
+    </table>
     <label for="word">Search word:</label>
     <input type="text" id="word" name="word" size="100" required><br><br>
     <input type="submit" name="submit_word" value="Named Entity Recognition">

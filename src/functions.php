@@ -7,7 +7,6 @@ use olcaytaner\Corpus\Sentence;
 use olcaytaner\Dictionary\Dictionary\Dictionary;
 use olcaytaner\Dictionary\Dictionary\Pos;
 use olcaytaner\Dictionary\Dictionary\TxtWord;
-use olcaytaner\Dictionary\Dictionary\Word;
 use olcaytaner\Framenet\Frame;
 use olcaytaner\Framenet\FrameNet;
 use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
@@ -149,7 +148,7 @@ function create_morphology_table(string $corpusName, AnnotatedCorpus $corpus, st
     }
 }
 
-function display_column(AnnotatedWord $currentWord, string $field_name): string{
+function display_column(AnnotatedWord $currentWord, string $field_name): ?string{
     switch ($field_name) {
         case "morphology":
             return $currentWord->getParse();
