@@ -11,6 +11,7 @@ use olcaytaner\Dictionary\Dictionary\Word;
 use olcaytaner\Framenet\Frame;
 use olcaytaner\Framenet\FrameNet;
 use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
+use olcaytaner\NamedEntityRecognition\NamedEntityType;
 use olcaytaner\Propbank\FramesetList;
 use olcaytaner\Propbank\PredicateList;
 use olcaytaner\WordNet\SynSet;
@@ -51,6 +52,21 @@ function matches_pos(AnnotatedWord $currentWord, string $word): bool{
     return $currentWord->getUniversalDependencyPos() == $word;
 }
 
+function matches_ner(AnnotatedWord $currentWord, string $word): bool{
+    return match ($currentWord->getNamedEntityType()) {
+        NamedEntityType::PERSON => "PERSON" == $word,
+        NamedEntityType::ORGANIZATION => "ORGANIZATION" == $word,
+        NamedEntityType::LOCATION => "LOCATION" == $word,
+        NamedEntityType::MONEY => "MONEY" == $word,
+        NamedEntityType::TIME => "TIME" == $word,
+        NamedEntityType::NONE, NULL => false,
+    };
+}
+
+function matches_shallow_parse(AnnotatedWord $currentWord, string $word): bool{
+    return $currentWord->getShallowParse() == $word;
+}
+
 function matches(AnnotatedWord $currentWord, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
@@ -64,6 +80,10 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return contains_tag($currentWord, $word);
         case "pos":
             return matches_pos($currentWord, $word);
+        case "ner":
+            return matches_ner($currentWord, $word);
+        case "shallowparse":
+            return matches_shallow_parse($currentWord, $word);
     }
 }
 
@@ -80,6 +100,58 @@ function search_corpus_for_word(AnnotatedCorpus $corpus, string $word, string $s
         }
     }
     return $sentences;
+}
+
+function create_shallow_parse_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
+    $sentences = search_corpus_for_word($corpus, $word, $search_type);
+    if (count($sentences) > 0) {
+        $display = "<h1>" . $corpusName ."</h1>";
+        foreach ($sentences as $sentence) {
+            if ($sentence instanceof AnnotatedSentence){
+                $display .= "<h2>" . substr($sentence->getFileName(), strrpos($sentence->getFileName(), "/") + 1) . "</h2>";
+                $display .= "<table>";
+                for ($j = 0; $j < $sentence->wordCount(); $j++) {
+                    $currentWord = $sentence->getWord($j);
+                    if ($currentWord instanceof AnnotatedWord) {
+                        if (matches($currentWord, $word, $search_type)) {
+                            $display .= "<tr><td><b><span style=\"color: red; \">" . $currentWord->getName() . "</span></b></td><td><b><span style=\"color: red; \">" . $currentWord->getShallowParse() . "</span></b></td></tr>";
+                        } else {
+                            $display .= "<tr><td>". $currentWord->getName() . "</td><td>" . $currentWord->getShallowParse() . "</td></tr>";
+                        }
+                    }
+                }
+                $display .= "</table>";
+            }
+        }
+        return $display;
+    }
+    return "";
+}
+
+function create_ner_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
+    $sentences = search_corpus_for_word($corpus, $word, $search_type);
+    if (count($sentences) > 0) {
+        $display = "<h1>" . $corpusName ."</h1>";
+        foreach ($sentences as $sentence) {
+            if ($sentence instanceof AnnotatedSentence){
+                $display .= "<h2>" . substr($sentence->getFileName(), strrpos($sentence->getFileName(), "/") + 1) . "</h2>";
+                $display .= "<table>";
+                for ($j = 0; $j < $sentence->wordCount(); $j++) {
+                    $currentWord = $sentence->getWord($j);
+                    if ($currentWord instanceof AnnotatedWord) {
+                        if (matches($currentWord, $word, $search_type)) {
+                            $display .= "<tr><td><b><span style=\"color: red; \">" . $currentWord->getName() . "</span></b></td><td><b><span style=\"color: red; \">" . $currentWord->getNamedEntityType() . "</span></b></td></tr>";
+                        } else {
+                            $display .= "<tr><td>". $currentWord->getName() . "</td><td>" . $currentWord->getNamedEntityType() . "</td></tr>";
+                        }
+                    }
+                }
+                $display .= "</table>";
+            }
+        }
+        return $display;
+    }
+    return "";
 }
 
 function create_pos_table(string $corpusName, AnnotatedCorpus $corpus, string $word, string $search_type): string{
