@@ -81,10 +81,42 @@ function matches_sense(AnnotatedWord $currentWord, string $word): bool{
     return $currentWord->getSemantic() == $word;
 }
 
-function matches_predicate_sense(AnnotatedWord $currentWord, string $word): bool{
+function matches_predicate_sense_propbank(AnnotatedWord $currentWord, string $word): bool{
     $argumentList = $currentWord->getArgumentList();
     if ($argumentList != null){
-        return $currentWord->getArgumentList()->containsPredicateWithId($word);
+        return $argumentList->containsPredicateWithId($word);
+    }
+    return false;
+}
+
+function matches_predicate_sense_framenet(AnnotatedWord $currentWord, string $word): bool{
+    $frameElementList = $currentWord->getFrameElementList();
+    if ($frameElementList != null){
+        return $frameElementList->containsPredicateWithId($word);
+    }
+    return false;
+}
+
+function matches_frame(AnnotatedWord $currentWord, string $word): bool{
+    $frameElementList = $currentWord->getFrameElementList();
+    if ($frameElementList != null){
+        foreach ($frameElementList->getFrameElements() as $frameElement){
+            if (str_contains($frameElement, "$" . $word . "$")){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function matches_frame_element(AnnotatedWord $currentWord, string $word): bool{
+    $frameElementList = $currentWord->getFrameElementList();
+    if ($frameElementList != null){
+        foreach ($frameElementList->getFrameElements() as $frameElement){
+            if (str_contains($frameElement, $word . "$")){
+                return true;
+            }
+        }
     }
     return false;
 }
@@ -108,8 +140,14 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return matches_shallow_parse($currentWord, $word);
         case "sense":
             return matches_sense($currentWord, $word);
-        case "predicate_sense":
-            return matches_predicate_sense($currentWord, $word);
+        case "predicate_sense_propbank":
+            return matches_predicate_sense_propbank($currentWord, $word);
+        case "predicate_sense_framenet":
+            return matches_predicate_sense_framenet($currentWord, $word);
+        case "frame":
+            return matches_frame($currentWord, $word);
+        case "frame_element":
+            return matches_frame_element($currentWord, $word);
     }
 }
 
@@ -126,6 +164,15 @@ function search_corpus_for_word(DisplayParameter $parameter): array{
         }
     }
     return $sentences;
+}
+
+function create_framenet_table(DisplayParameter $parameter): string{
+    $parameter->field_name = "framenet";
+    if ($parameter->columnWise) {
+        return create_generic_column_table($parameter);
+    } else {
+        return create_generic_row_table($parameter);
+    }
 }
 
 function create_propbank_table(DisplayParameter $parameter): string{
@@ -207,6 +254,23 @@ function display_column(AnnotatedWord $currentWord, string $field_name): ?string
                         $display .= $items[0] . "<br>". $items[1] . "<br>";
                     } else {
                         $display .= $argument . "<br>";
+                    }
+                }
+                return $display;
+            }
+        case "framenet":
+            $frameElementList = $currentWord->getFrameElementList();
+            if ($frameElementList == null){
+                return "";
+            } else {
+                $frameElements = $frameElementList->getFrameElements();
+                $display = "";
+                foreach ($frameElements as $frameElement) {
+                    if (str_contains($frameElement, "$")){
+                        $items = explode( "$", $frameElement);
+                        $display .= $items[0] . "<br>". $items[1] . "<br>" . $items[2] . "<br>";
+                    } else {
+                        $display .= $frameElement . "<br>";
                     }
                 }
                 return $display;

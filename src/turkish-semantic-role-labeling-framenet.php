@@ -105,8 +105,12 @@ include 'functions.php';
                 <label for="root">Root Match</label><br>
                 <input type="radio" id="contains" name="search_type" value="contains" checked="checked">
                 <label for="contains">Contains</label><br>
-                <input type="radio" id="predicate_sense_propbank" name="search_type" value="predicate_sense_propbank">
-                <label for="predicate_sense_propbank">Predicate Sense Id</label></td>
+                <input type="radio" id="predicate_sense_framenet" name="search_type" value="predicate_sense_framenet">
+                <label for="predicate_sense_framenet">Predicate Sense Id</label><br>
+                <input type="radio" id="frame" name="search_type" value="frame">
+                <label for="frame">Frame</label><br>
+                <input type="radio" id="frame_element" name="search_type" value="frame_element">
+                <label for="frame_element">Frame Element</label></td>
             <td><p>Search dataset:</p>
                 <input type="radio" id="atis" name="dataset" value="atis" checked="checked">
                 <label for="atis">Atis</label><br>
@@ -141,7 +145,7 @@ include 'functions.php';
     </table>
     <label for="word">Search word:</label>
     <input type="text" id="word" name="word" size="100" required><br><br>
-    <input type="submit" name="submit_word" value="Propbank Annotation">
+    <input type="submit" name="submit_word" value="Framenet Annotation">
 </form>
 <?php
 if (isset($_POST['submit_word'])) {
@@ -155,25 +159,25 @@ if (isset($_POST['submit_word'])) {
         case "atis":
             $parameter->corpus = new AnnotatedCorpus("../Atis/Turkish-Phrase");
             $parameter->corpusName = "Atis";
-            echo create_propbank_table($parameter);
+            echo create_framenet_table($parameter);
             break;
         case "tourism":
             $parameter->corpus = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
             $parameter->corpusName = "Tourism";
-            echo create_propbank_table($parameter);
+            echo create_framenet_table($parameter);
             break;
         case "kenet":
             $parameter->corpus = new AnnotatedCorpus("../Kenet-Examples/Turkish-Phrase");
             $parameter->corpusName = "Kenet";
-            echo create_propbank_table($parameter);
+            echo create_framenet_table($parameter);
             break;
         case "penn":
             $parameter->corpus = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
             $parameter->corpusName = "Penn-Treebank-15";
-            echo create_propbank_table($parameter);
+            echo create_framenet_table($parameter);
             $parameter->corpus = new AnnotatedCorpus("../Penn-Treebank-20/Turkish-Phrase");
             $parameter->corpusName = "Penn-Treebank-20";
-            echo create_propbank_table($parameter);
+            echo create_framenet_table($parameter);
             break;
     }
 }
