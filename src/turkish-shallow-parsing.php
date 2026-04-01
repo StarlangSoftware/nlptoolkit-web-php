@@ -99,26 +99,42 @@ include 'functions.php';
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table>
         <tr><td><p>Search type:</p>
-                <input type="radio" id="word" name="search_type" value="full" checked="checked">
+                <input type="radio" id="word" name="search_type" value="full">
                 <label for="word">Full Match</label><br>
                 <input type="radio" id="root" name="search_type" value="root">
                 <label for="root">Root Match</label><br>
-                <input type="radio" id="contains" name="search_type" value="contains">
+                <input type="radio" id="contains" name="search_type" value="contains" checked="checked">
                 <label for="contains">Contains</label><br>
                 <input type="radio" id="shallowparse" name="search_type" value="shallowparse">
                 <label for="shallowparse">Shallow Parse Tag</label>
             </td>
             <td><p>Search dataset:</p>
-                <input type="radio" id="penn" name="dataset" value="penn">
+                <input type="radio" id="penn" name="dataset" value="penn" checked="checked">
                 <label for="penn">Penn</label><br>
                 <input type="radio" id="tourism" name="dataset" value="tourism">
                 <label for="tourism">Tourism</label>
+            </td>
+            <td><p>Display color:</p>
+                <input type="radio" id="red" name="color" value="red" checked="checked">
+                <label for="red"><span style="color: red;">Red</span></label><br>
+                <input type="radio" id="green" name="color" value="green">
+                <label for="green"><span style="color: green;">Green</span></label><br>
+                <input type="radio" id="blue" name="color" value="blue">
+                <label for="blue"><span style="color: blue;">Blue</span></label><br>
+                <input type="radio" id="orange" name="color" value="orange">
+                <label for="orange"><span style="color: orange;">Orange</span></label><br>
+                <input type="radio" id="purple" name="color" value="purple">
+                <label for="purple"><span style="color: violet;">Violet</span></label><br>
+                <input type="radio" id="yellow" name="color" value="yellow">
+                <label for="yellow"><span style="color: yellow;">Yellow</span></label><br>
+                <input type="radio" id="purple" name="color" value="purple">
+                <label for="purple"><span style="color: purple;">Purple</span></label><br>
             </td>
             <td><p>Display results:</p>
                 <input type="radio" id="column" name="display" value="column">
                 <label for="column">Column</label><br>
                 <input type="radio" id="row" name="display" value="row" checked="checked">
-                <label for="row">Row</label><br>
+                <label for="row">Row</label>
             </td></tr>
     </table>
     <label for="word">Search word:</label>
@@ -128,18 +144,22 @@ include 'functions.php';
 </form>
 <?php
 if (isset($_POST['submit_word'])) {
-    $word = $_POST['word'];
-    $search_type = $_POST['search_type'];
+    $parameter = new DisplayParameter();
+    $parameter->word = $_POST['word'];
+    $parameter->search_type = $_POST['search_type'];
     $dataset = $_POST['dataset'];
-    $columnWise = $_POST['display'] == "column";
+    $parameter->columnWise = $_POST['display'] == "column";
+    $parameter->color = $_POST['color'];
     switch ($dataset) {
         case "tourism":
-            $tourism = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
-            echo create_shallow_parse_table("Tourism", $tourism, $word, $search_type, $columnWise);
+            $parameter->corpus = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
+            $parameter->corpusName = "Tourism";
+            echo create_shallow_parse_table($parameter);
             break;
         case "penn":
-            $penn15 = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
-            echo create_shallow_parse_table("Penn-Treebank-15", $penn15, $word, $search_type, $columnWise);
+            $parameter->corpus = new AnnotatedCorpus("../Penn-Treebank/Turkish-Phrase");
+            $parameter->corpusName = "Penn-Treebank-15";
+            echo create_shallow_parse_table($parameter);
             break;
     }
 }
