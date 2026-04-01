@@ -81,6 +81,14 @@ function matches_sense(AnnotatedWord $currentWord, string $word): bool{
     return $currentWord->getSemantic() == $word;
 }
 
+function matches_predicate_sense(AnnotatedWord $currentWord, string $word): bool{
+    $argumentList = $currentWord->getArgumentList();
+    if ($argumentList != null){
+        return $currentWord->getArgumentList()->containsPredicateWithId($word);
+    }
+    return false;
+}
+
 function matches(AnnotatedWord $currentWord, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
@@ -100,6 +108,8 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return matches_shallow_parse($currentWord, $word);
         case "sense":
             return matches_sense($currentWord, $word);
+        case "predicate_sense":
+            return matches_predicate_sense($currentWord, $word);
     }
 }
 
@@ -116,6 +126,15 @@ function search_corpus_for_word(DisplayParameter $parameter): array{
         }
     }
     return $sentences;
+}
+
+function create_propbank_table(DisplayParameter $parameter): string{
+    $parameter->field_name = "propbank";
+    if ($parameter->columnWise) {
+        return create_generic_column_table($parameter);
+    } else {
+        return create_generic_row_table($parameter);
+    }
 }
 
 function create_sense_table(DisplayParameter $parameter): string{
@@ -164,14 +183,37 @@ function create_morphology_table(DisplayParameter $parameter): string{
 }
 
 function display_column(AnnotatedWord $currentWord, string $field_name): ?string{
-    return match ($field_name) {
-        "morphology" => $currentWord->getParse(),
-        "pos" => $currentWord->getUniversalDependencyPos(),
-        "ner" => NamedEntityTypeStatic::getNamedEntity($currentWord->getNamedEntityType()),
-        "shallowparse" => $currentWord->getShallowParse(),
-        "sense" => $currentWord->getSemantic(),
-        default => "",
-    };
+    switch ($field_name) {
+        case "morphology":
+            return $currentWord->getParse();
+        case "pos":
+            return $currentWord->getUniversalDependencyPos();
+        case "ner":
+            return NamedEntityTypeStatic::getNamedEntity($currentWord->getNamedEntityType());
+        case "shallowparse":
+            return $currentWord->getShallowParse();
+        case "sense":
+            return $currentWord->getSemantic();
+        case "propbank":
+            $argumentList = $currentWord->getArgumentList();
+            if ($argumentList == null){
+                return "";
+            } else {
+                $arguments = $argumentList->getArguments();
+                $display = "";
+                foreach ($arguments as $argument) {
+                    if (str_contains($argument, "$")){
+                        $items = explode( "$", $argument);
+                        $display .= $items[0] . "<br>". $items[1] . "<br>";
+                    } else {
+                        $display .= $argument . "<br>";
+                    }
+                }
+                return $display;
+            }
+        default:
+            return "";
+    }
 }
 
 function create_generic_column_table(DisplayParameter $parameter): string{
