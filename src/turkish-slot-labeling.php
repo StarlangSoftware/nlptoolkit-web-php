@@ -85,7 +85,7 @@
 </style>
 <head>
     <meta charset="UTF-8">
-    <title>Turkish Sentiment Annotation Datasets</title>
+    <title>Turkish Slot Labeling Datasets</title>
 </head>
 <body>
 <?php
@@ -105,9 +105,11 @@ include 'functions.php';
                 <label for="root">Root Match</label><br>
                 <input type="radio" id="contains" name="search_type" value="contains" checked="checked">
                 <label for="contains">Contains</label><br>
+                <input type="radio" id="slot" name="search_type" value="slot">
+                <label for="slot">Slot Tag</label></td>
             <td><p>Search dataset:</p>
-                <input type="radio" id="tourism" name="dataset" value="tourism" checked="checked">
-                <label for="tourism">Tourism</label><br>
+                <input type="radio" id="atis" name="dataset" value="atis" checked="checked">
+                <label for="atis">Atis</label></td>
             <td><p>Display color:</p>
                 <input type="radio" id="red" name="color" value="red" checked="checked">
                 <label for="red"><span style="color: red;">Red</span></label><br>
@@ -129,12 +131,11 @@ include 'functions.php';
                 <label for="column">Column</label><br>
                 <input type="radio" id="row" name="display" value="row" checked="checked">
                 <label for="row">Row</label>
-                <br>
             </td></tr>
     </table>
     <label for="word">Search word:</label>
     <input type="text" id="word" name="word" size="100" required><br><br>
-    <input type="submit" name="submit_word" value="Sentiment Analysis">
+    <input type="submit" name="submit_word" value="Slot Labeling">
 </form>
 <?php
 if (isset($_POST['submit_word'])) {
@@ -145,10 +146,10 @@ if (isset($_POST['submit_word'])) {
     $parameter->columnWise = $_POST['display'] == "column";
     $parameter->color = $_POST['color'];
     switch ($dataset) {
-        case "tourism":
-            $parameter->corpus = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
-            $parameter->corpusName = "Tourism";
-            echo create_sentiment_table($parameter);
+        case "atis":
+            $parameter->corpus = new AnnotatedCorpus("../Atis/Turkish-Phrase");
+            $parameter->corpusName = "Atis";
+            echo create_slot_table($parameter);
             break;
     }
 }

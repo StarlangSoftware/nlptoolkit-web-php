@@ -73,6 +73,14 @@ function matches_ner(AnnotatedWord $currentWord, string $word): bool{
     };
 }
 
+function matches_slot(AnnotatedWord $currentWord, string $word): bool{
+    $slot = $currentWord->getSlot();
+    if ($slot !== null) {
+        return $slot->getTag() == $word;
+    }
+    return false;
+}
+
 function matches_shallow_parse(AnnotatedWord $currentWord, string $word): bool{
     return $currentWord->getShallowParse() == $word;
 }
@@ -136,6 +144,8 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return matches_pos($currentWord, $word);
         case "ner":
             return matches_ner($currentWord, $word);
+        case "slot":
+            return matches_slot($currentWord, $word);
         case "shallowparse":
             return matches_shallow_parse($currentWord, $word);
         case "sense":
@@ -164,6 +174,15 @@ function search_corpus_for_word(DisplayParameter $parameter): array{
         }
     }
     return $sentences;
+}
+
+function create_slot_table(DisplayParameter $parameter): string{
+    $parameter->field_name = "slot";
+    if ($parameter->columnWise) {
+        return create_generic_column_table($parameter);
+    } else {
+        return create_generic_row_table($parameter);
+    }
 }
 
 function create_sentiment_table(DisplayParameter $parameter): string{
@@ -246,6 +265,8 @@ function display_column(AnnotatedWord $currentWord, string $field_name): ?string
             return $currentWord->getUniversalDependencyPos();
         case "ner":
             return NamedEntityTypeStatic::getNamedEntity($currentWord->getNamedEntityType());
+        case "slot":
+            return $currentWord->getSlot()->__toString();
         case "shallowparse":
             return $currentWord->getShallowParse();
         case "sense":
