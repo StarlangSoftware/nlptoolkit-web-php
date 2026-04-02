@@ -166,6 +166,15 @@ function search_corpus_for_word(DisplayParameter $parameter): array{
     return $sentences;
 }
 
+function create_sentiment_table(DisplayParameter $parameter): string{
+    $parameter->field_name = "sentiment";
+    if ($parameter->columnWise) {
+        return create_generic_column_table($parameter);
+    } else {
+        return create_generic_row_table($parameter);
+    }
+}
+
 function create_framenet_table(DisplayParameter $parameter): string{
     $parameter->field_name = "framenet";
     if ($parameter->columnWise) {
@@ -241,6 +250,8 @@ function display_column(AnnotatedWord $currentWord, string $field_name): ?string
             return $currentWord->getShallowParse();
         case "sense":
             return $currentWord->getSemantic();
+        case "sentiment":
+            return $currentWord->getPolarityString();
         case "propbank":
             $argumentList = $currentWord->getArgumentList();
             if ($argumentList == null){
