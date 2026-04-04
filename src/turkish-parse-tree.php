@@ -98,6 +98,7 @@ use olcaytaner\AnnotatedTree\TreeBankDrawable;
 use olcaytaner\ParseTree\TreeBank;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+set_time_limit(0);
 ini_set('memory_limit', '4096M');
 include 'functions.php';
 ?>
