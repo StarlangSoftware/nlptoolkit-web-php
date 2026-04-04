@@ -113,6 +113,20 @@ include 'functions.php';
                 <label for="penn15">Penn-Treebank-15</label><br>
                 <input type="radio" id="penn20" name="dataset" value="penn20">
                 <label for="penn20">Penn-Treebank-20</label></td>
+            <td><p>Display Layer:</p>
+                <input type="radio" id="text" name="layer" value="text" checked="checked">
+                <label for="text">Text</label><br>
+                <input type="radio" id="morphology" name="layer" value="morphology">
+                <label for="morphology">Morphology</label><br>
+                <input type="radio" id="metamorpheme" name="layer" value="metamorpheme">
+                <label for="metamorpheme">Metamorpheme</label><br>
+                <input type="radio" id="semantics" name="layer" value="semantics">
+                <label for="semantics">Semantics</label><br>
+                <input type="radio" id="namedentity" name="layer" value="namedentity">
+                <label for="namedentity">Named Entity</label><br>
+                <input type="radio" id="propbank" name="layer" value="propbank">
+                <label for="propbank">Propbank</label><br>
+            </td>
             <td><p>Display color:</p>
                 <input type="radio" id="red" name="color" value="red" checked="checked">
                 <label for="red"><span style="color: red;">Red</span></label><br>
@@ -148,15 +162,16 @@ if (isset($_POST['submit_word'])) {
     $dataset = $_POST['dataset'];
     $parameter->columnWise = $_POST['display'] == "vertical";
     $parameter->color = $_POST['color'];
-    $parameter->treebankdrawable = null;
+    $parameter->layer = $_POST['layer'];
+    $parameter->treebank = null;
     switch ($dataset) {
         case "penn15":
-            $parameter->treebank = new TreeBank("../Penn-Treebank/English");
+            $parameter->treebankdrawable = new TreeBankDrawable("../Penn-Treebank/Turkish2");
             $parameter->corpusName = "Penn-Treebank-15";
             echo create_parse_tree($parameter);
             break;
         case "penn20":
-            $parameter->treebank = new TreeBank("../Penn-Treebank-20/English");
+            $parameter->treebankdrawable = new TreeBankDrawable("../Penn-Treebank-20/Turkish2");
             $parameter->corpusName = "Penn-Treebank-20";
             echo create_parse_tree($parameter);
             break;

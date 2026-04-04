@@ -3,6 +3,11 @@
 use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
 use olcaytaner\AnnotatedSentence\AnnotatedSentence;
 use olcaytaner\AnnotatedSentence\AnnotatedWord;
+use olcaytaner\AnnotatedSentence\ViewLayerType;
+use olcaytaner\AnnotatedTree\ParseNodeDrawable;
+use olcaytaner\AnnotatedTree\Processor\Condition\IsTurkishLeafNode;
+use olcaytaner\AnnotatedTree\Processor\NodeDrawableCollector;
+use olcaytaner\AnnotatedTree\TreeBankDrawable;
 use olcaytaner\Corpus\Sentence;
 use olcaytaner\Dictionary\Dictionary\Dictionary;
 use olcaytaner\Dictionary\Dictionary\Pos;
@@ -24,12 +29,14 @@ use olcaytaner\WordNet\WordNet;
 class DisplayParameter {
     public string $corpusName;
     public AnnotatedCorpus $corpus;
-    public TreeBank $treebank;
+    public ?TreeBank $treebank;
+    public ?TreeBankDrawable $treebankdrawable;
     public string $word;
     public string $search_type;
     public bool $columnWise;
     public string $color;
     public string $field_name;
+    public string $layer;
 }
 
 function pos_to_string(Pos $pos): string
@@ -42,8 +49,7 @@ function pos_to_string(Pos $pos): string
         Pos::CONJUNCTION => "CONJUNCTION",
         Pos::INTERJECTION => "INTERJECTION",
         Pos::PREPOSITION => "PREPOSITION",
-        Pos::PRONOUN => "PRONOUN",
-        default => "",
+        Pos::PRONOUN => "PRONOUN"
     };
 }
 
@@ -134,13 +140,23 @@ function matches_frame_element(AnnotatedWord $currentWord, string $word): bool{
     return false;
 }
 
-function tree_matches(ParseNode $currentNode, string $word, string $search_type): bool{
+function english_tree_matches(ParseNode $currentNode, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
         case "full":
             return $currentNode->getData()->getName() == $word;
         case "contains":
             return str_contains($currentNode->getData()->getName(), $word);
+    }
+}
+
+function turkish_tree_matches(ParseNodeDrawable $currentNode, string $word, string $search_type): bool{
+    switch ($search_type) {
+        default:
+        case "full":
+            return $currentNode->getLayerData(ViewLayerType::TURKISH_WORD) == $word;
+        case "contains":
+            return str_contains($currentNode->getLayerData(ViewLayerType::TURKISH_WORD), $word);
     }
 }
 
@@ -191,14 +207,14 @@ function search_corpus_for_word(DisplayParameter $parameter): array{
     return $sentences;
 }
 
-function search_treebank_for_word(DisplayParameter $parameter): array{
+function search_english_treebank_for_word(DisplayParameter $parameter): array{
     $sentences = [];
     for ($i = 0; $i < $parameter->treebank->size(); $i++) {
         $parseTree = $parameter->treebank->get($i);
         $collector = new NodeCollector($parseTree->getRoot(), new IsEnglishLeaf());
         $leafList = $collector->collect();
         foreach ($leafList as $leaf){
-            if (tree_matches($leaf, $parameter->word, $parameter->search_type)) {
+            if (english_tree_matches($leaf, $parameter->word, $parameter->search_type)) {
                 $sentences[] = $parseTree;
                 break;
             }
@@ -207,7 +223,23 @@ function search_treebank_for_word(DisplayParameter $parameter): array{
     return $sentences;
 }
 
-function create_english_parse_tree(DisplayParameter $parameter): string{
+function search_turkish_treebank_for_word(DisplayParameter $parameter): array{
+    $sentences = [];
+    for ($i = 0; $i < $parameter->treebankdrawable->size(); $i++) {
+        $parseTree = $parameter->treebankdrawable->get($i);
+        $collector = new NodeDrawableCollector($parseTree->getRoot(), new IsTurkishLeafNode());
+        $leafList = $collector->collect();
+        foreach ($leafList as $leaf){
+            if (turkish_tree_matches($leaf, $parameter->word, $parameter->search_type)) {
+                $sentences[] = $parseTree;
+                break;
+            }
+        }
+    }
+    return $sentences;
+}
+
+function create_parse_tree(DisplayParameter $parameter): string{
     if ($parameter->columnWise) {
         return create_vertical_parse_tree($parameter);
     } else {
@@ -215,10 +247,68 @@ function create_english_parse_tree(DisplayParameter $parameter): string{
     }
 }
 
+function display_english_node_contents(DisplayParameter $parameter, ParseNode $node, int $x, int $y, string $s): string{
+    if ($node->numberOfChildren() == 0 && english_tree_matches($node, $parameter->word, $parameter->search_type)) {
+        return "<text x=\"" . $x . "\" y=\"" . $y . "\" fill=\"" . $parameter->color . "\">" . $s . "</text>\n";
+    } else {
+        return "<text x=\"" . $x . "\" y=\"" . $y . "\">" . $s . "</text>\n";
+    }
+}
+
+function display_turkish_node_contents(DisplayParameter $parameter, ParseNodeDrawable $node, int $x, int $y, string $s): string{
+    if ($node->numberOfChildren() == 0 && turkish_tree_matches($node, $parameter->word, $parameter->search_type)) {
+        return "<text x=\"" . $x . "\" y=\"" . $y . "\" fill=\"" . $parameter->color . "\">" . $s . "</text>\n";
+    } else {
+        return "<text x=\"" . $x . "\" y=\"" . $y . "\">" . $s . "</text>\n";
+    }
+}
+
+function get_node_contents(DisplayParameter $parameter, ParseNode $node){
+    if ($node->numberOfChildren() == 0 && $parameter->treebankdrawable != null){
+        switch ($parameter->layer) {
+            default:
+            case "text":
+                return $node->getLayerData(ViewLayerType::TURKISH_WORD);
+            case "morphology":
+                if ($node->layerExists(ViewLayerType::INFLECTIONAL_GROUP)){
+                    return $node->getLayerData(ViewLayerType::INFLECTIONAL_GROUP);
+                } else {
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD);
+                }
+            case "metamorpheme":
+                if ($node->layerExists(ViewLayerType::META_MORPHEME)){
+                    return $node->getLayerData(ViewLayerType::META_MORPHEME);
+                } else {
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD);
+                }
+            case "semantics":
+                if ($node->layerExists(ViewLayerType::SEMANTICS)){
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD) . " " . $node->getLayerData(ViewLayerType::SEMANTICS);
+                } else {
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD);
+                }
+            case "namedentity":
+                if ($node->layerExists(ViewLayerType::NER)){
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD) . " " . $node->getLayerData(ViewLayerType::NER);
+                } else {
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD);
+                }
+            case "propbank":
+                if ($node->layerExists(ViewLayerType::PROPBANK)){
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD) . " " . $node->getLayerData(ViewLayerType::PROPBANK);
+                } else {
+                    return $node->getLayerData(ViewLayerType::TURKISH_WORD);
+                }
+        }
+    } else {
+        return $node->getData()->getName();
+    }
+}
+
 function create_vertical_parse_node(DisplayParameter $parameter, ParseNode $node, int $maxDepth, int $nodeWidth, int $nodeHeight): string
 {
     $display = "";
-    $s = $node->getData()->getName();
+    $s = get_node_contents($parameter, $node);
     if ($node->getDepth() == 0){
         $addY = 15;
     } else {
@@ -230,10 +320,10 @@ function create_vertical_parse_node(DisplayParameter $parameter, ParseNode $node
     }
     $x = ($node->getInOrderTraversalIndex() + 1) * $nodeWidth - 20 / 2;
     $y = $node->getDepth() * $nodeHeight + $addY;
-    if ($node->numberOfChildren() == 0 && tree_matches($node, $parameter->word, $parameter->search_type)) {
-        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\" fill=\"" . $parameter->color . "\">" . $s . "</text>\n";
+    if ($parameter->treebankdrawable == null){
+        $display .= display_english_node_contents($parameter, $node, $x, $y, $s);
     } else {
-        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\">" . $s . "</text>\n";
+        $display .= display_turkish_node_contents($parameter, $node, $x, $y, $s);
     }
     for ($i = 0; $i < $node->numberOfChildren(); $i++){
         $child = $node->getChild($i);
@@ -246,7 +336,11 @@ function create_vertical_parse_node(DisplayParameter $parameter, ParseNode $node
 function create_vertical_parse_tree(DisplayParameter $parameter): string{
     $nodeWidth = 70;
     $nodeHeight = 80;
-    $trees = search_treebank_for_word($parameter);
+    if ($parameter->treebankdrawable == null){
+        $trees = search_english_treebank_for_word($parameter);
+    } else {
+        $trees = search_turkish_treebank_for_word($parameter);
+    }
     $display = "";
     foreach ($trees as $parseTree) {
         $display .= "<h3>" . substr($parseTree->getName(), strrpos($parseTree->getName(), "/") + 1) . "</h3>\n";
@@ -260,7 +354,7 @@ function create_vertical_parse_tree(DisplayParameter $parameter): string{
 function create_horizontal_parse_node(DisplayParameter $parameter, ParseNode $node, int $maxDepth, int $nodeWidth, int $nodeHeight): string
 {
     $display = "";
-    $s = $node->getData()->getName();
+    $s = get_node_contents($parameter, $node);
     if ($node->getDepth() == 0){
         $addX = 15;
     } else {
@@ -272,10 +366,10 @@ function create_horizontal_parse_node(DisplayParameter $parameter, ParseNode $no
     }
     $x = $node->getDepth() * $nodeHeight + $addX;
     $y = ($node->getInOrderTraversalIndex() + 1) * $nodeWidth - 20 / 2;
-    if ($node->numberOfChildren() == 0 && tree_matches($node, $parameter->word, $parameter->search_type)) {
-        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\" fill=\"" . $parameter->color . "\">" . $s . "</text>\n";
+    if ($parameter->treebankdrawable == null){
+        $display .= display_english_node_contents($parameter, $node, $x, $y, $s);
     } else {
-        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\">" . $s . "</text>\n";
+        $display .= display_turkish_node_contents($parameter, $node, $x, $y, $s);
     }
     for ($i = 0; $i < $node->numberOfChildren(); $i++){
         $child = $node->getChild($i);
@@ -288,7 +382,11 @@ function create_horizontal_parse_node(DisplayParameter $parameter, ParseNode $no
 function create_horizontal_parse_tree(DisplayParameter $parameter): string{
     $nodeWidth = 70;
     $nodeHeight = 120;
-    $trees = search_treebank_for_word($parameter);
+    if ($parameter->treebankdrawable == null){
+        $trees = search_english_treebank_for_word($parameter);
+    } else {
+        $trees = search_turkish_treebank_for_word($parameter);
+    }
     $display = "";
     foreach ($trees as $parseTree) {
         $display .= "<h3>" . substr($parseTree->getName(), strrpos($parseTree->getName(), "/") + 1) . "</h3>\n";
@@ -588,14 +686,12 @@ function create_predicate_table(PredicateList $englishPropBank, string $predicat
 {
     $display = "<table> <tr> <th>Id</th> <th>Name</th> <th>Descr</th> <th>f</th> <th>n</th> </tr>";
     $predicate = $englishPropBank->getPredicate($predicateName);
-    if ($predicate != null) {
-        for ($i = 0; $i < $predicate->size(); $i++) {
-            $roleSet = $predicate->getRoleSet($i);
-            for ($j = 0; $j < $roleSet->size(); $j++) {
-                $display .= "<tr><td>" . $roleSet->getId() . "</td><td>" . $roleSet->getName() . "</td>";
-                $role = $roleSet->getRole($j);
-                $display .= "<td>" . $role->getDescription() . "</td><td>" . $role->getF() . "</td><td>" . $role->getN() . "</td></tr>";
-            }
+    for ($i = 0; $i < $predicate->size(); $i++) {
+        $roleSet = $predicate->getRoleSet($i);
+        for ($j = 0; $j < $roleSet->size(); $j++) {
+            $display .= "<tr><td>" . $roleSet->getId() . "</td><td>" . $roleSet->getName() . "</td>";
+            $role = $roleSet->getRole($j);
+            $display .= "<td>" . $role->getDescription() . "</td><td>" . $role->getF() . "</td><td>" . $role->getN() . "</td></tr>";
         }
     }
     $display .= "</table>";
@@ -848,4 +944,3 @@ function create_frame_table(WordNet $turkishWordNet, FrameNet $frameNet, string 
     $display .= "</table>";
     return $display;
 }
-?>
