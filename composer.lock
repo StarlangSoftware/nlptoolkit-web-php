@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5eced85a74c7a41b8366f13e9507c600",
+    "content-hash": "130425b76468319c7db7013a4dad85a6",
     "packages": [],
     "packages-dev": [
         {
@@ -656,16 +656,16 @@
         },
         {
             "name": "olcaytaner/parsetree",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/StarlangSoftware/ParseTree-Php.git",
-                "reference": "9941153e39e84db720ea10e96c5be0320737630d"
+                "reference": "98e30976e0e13d20f87f90b1fa195cfbd4b9d24d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/StarlangSoftware/ParseTree-Php/zipball/9941153e39e84db720ea10e96c5be0320737630d",
-                "reference": "9941153e39e84db720ea10e96c5be0320737630d",
+                "url": "https://api.github.com/repos/StarlangSoftware/ParseTree-Php/zipball/98e30976e0e13d20f87f90b1fa195cfbd4b9d24d",
+                "reference": "98e30976e0e13d20f87f90b1fa195cfbd4b9d24d",
                 "shasum": ""
             },
             "require": {
@@ -696,9 +696,9 @@
             "description": "Parse tree processing library",
             "support": {
                 "issues": "https://github.com/StarlangSoftware/ParseTree-Php/issues",
-                "source": "https://github.com/StarlangSoftware/ParseTree-Php/tree/1.0.7"
+                "source": "https://github.com/StarlangSoftware/ParseTree-Php/tree/1.0.8"
             },
-            "time": "2026-04-04T06:50:33+00:00"
+            "time": "2026-04-04T09:07:42+00:00"
         },
         {
             "name": "olcaytaner/propbank",

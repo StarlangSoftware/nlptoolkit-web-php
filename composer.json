@@ -26,7 +26,7 @@
     "olcaytaner/dictionary": "1.0.1",
     "olcaytaner/morphologicalanalysis": "1.0.1",
     "olcaytaner/namedentityrecognition": "1.0.0",
-    "olcaytaner/parsetree": "1.0.7",
+    "olcaytaner/parsetree": "1.0.8",
     "olcaytaner/framenet": "1.0.2",
     "olcaytaner/wordnet": "1.0.1",
     "olcaytaner/corpus": "1.0.2",

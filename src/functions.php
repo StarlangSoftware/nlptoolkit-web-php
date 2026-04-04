@@ -249,7 +249,7 @@ function create_vertical_parse_tree(DisplayParameter $parameter): string{
     $trees = search_treebank_for_word($parameter);
     $display = "";
     foreach ($trees as $parseTree) {
-        $display .= "<h3>" . $parseTree->getName() . "</h3>\n";
+        $display .= "<h3>" . substr($parseTree->getName(), strrpos($parseTree->getName(), "/") + 1) . "</h3>\n";
         $display .= "<svg width=\"" . (($parseTree->getMaxInOrderTraversalIndex() + 2) * $nodeWidth) . "\" height=\"" . (($parseTree->maxDepth() + 1) * $nodeHeight) . "\">";
         $display .= create_vertical_parse_node($parameter, $parseTree->getRoot(), $parseTree->maxDepth(), $nodeWidth, $nodeHeight);
         $display .= "</svg>\n";
@@ -291,7 +291,7 @@ function create_horizontal_parse_tree(DisplayParameter $parameter): string{
     $trees = search_treebank_for_word($parameter);
     $display = "";
     foreach ($trees as $parseTree) {
-        $display .= "<h3>" . $parseTree->getName() . "</h3>\n";
+        $display .= "<h3>" . substr($parseTree->getName(), strrpos($parseTree->getName(), "/") + 1) . "</h3>\n";
         $display .= "<svg width=\"" . (($parseTree->maxDepth() + 1) * $nodeHeight) . "\" height=\"" . (($parseTree->getMaxInOrderTraversalIndex() + 2) * $nodeWidth) . "\">";
         $display .= create_horizontal_parse_node($parameter, $parseTree->getRoot(), $parseTree->maxDepth(), $nodeWidth, $nodeHeight);
         $display .= "</svg>\n";
