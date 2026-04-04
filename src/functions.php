@@ -389,7 +389,11 @@ function display_column(AnnotatedWord $currentWord, string $field_name): ?string
         case "ner":
             return NamedEntityTypeStatic::getNamedEntity($currentWord->getNamedEntityType());
         case "slot":
-            return $currentWord->getSlot()->__toString();
+            if ($currentWord->getSlot() !== null) {
+                return $currentWord->getSlot()->__toString();
+            } else {
+                return "";
+            }
         case "shallowparse":
             return $currentWord->getShallowParse();
         case "sense":
