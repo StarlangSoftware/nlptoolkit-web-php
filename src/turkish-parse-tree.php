@@ -112,7 +112,12 @@ include 'functions.php';
                 <input type="radio" id="penn15" name="dataset" value="penn15" checked="checked">
                 <label for="penn15">Penn-Treebank-15</label><br>
                 <input type="radio" id="penn20" name="dataset" value="penn20">
-                <label for="penn20">Penn-Treebank-20</label></td>
+                <label for="penn20">Penn-Treebank-20</label><br>
+                <input type="radio" id="penn15t" name="dataset" value="penn15t">
+                <label for="penn15t">Penn-Treebank-15 Translated</label><br>
+                <input type="radio" id="penn20t" name="dataset" value="penn20t">
+                <label for="penn20t">Penn-Treebank-20 Translated</label>
+            </td>
             <td><p>Display Layer:</p>
                 <input type="radio" id="text" name="layer" value="text" checked="checked">
                 <label for="text">Text</label><br>
@@ -172,6 +177,16 @@ if (isset($_POST['submit_word'])) {
             break;
         case "penn20":
             $parameter->treebankdrawable = new TreeBankDrawable("../Penn-Treebank-20/Turkish2");
+            $parameter->corpusName = "Penn-Treebank-20";
+            echo create_parse_tree($parameter);
+            break;
+        case "penn15t":
+            $parameter->treebankdrawable = new TreeBankDrawable("../Penn-Treebank/Turkish");
+            $parameter->corpusName = "Penn-Treebank-15";
+            echo create_parse_tree($parameter);
+            break;
+        case "penn20t":
+            $parameter->treebankdrawable = new TreeBankDrawable("../Penn-Treebank-20/Turkish");
             $parameter->corpusName = "Penn-Treebank-20";
             echo create_parse_tree($parameter);
             break;
