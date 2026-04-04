@@ -12,6 +12,10 @@ use olcaytaner\Framenet\FrameNet;
 use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
 use olcaytaner\NamedEntityRecognition\NamedEntityType;
 use olcaytaner\NamedEntityRecognition\NamedEntityTypeStatic;
+use olcaytaner\ParseTree\NodeCollector;
+use olcaytaner\ParseTree\NodeCondition\IsEnglishLeaf;
+use olcaytaner\ParseTree\ParseNode;
+use olcaytaner\ParseTree\TreeBank;
 use olcaytaner\Propbank\FramesetList;
 use olcaytaner\Propbank\PredicateList;
 use olcaytaner\WordNet\SynSet;
@@ -20,6 +24,7 @@ use olcaytaner\WordNet\WordNet;
 class DisplayParameter {
     public string $corpusName;
     public AnnotatedCorpus $corpus;
+    public TreeBank $treebank;
     public string $word;
     public string $search_type;
     public bool $columnWise;
@@ -129,6 +134,16 @@ function matches_frame_element(AnnotatedWord $currentWord, string $word): bool{
     return false;
 }
 
+function tree_matches(ParseNode $currentNode, string $word, string $search_type): bool{
+    switch ($search_type) {
+        default:
+        case "full":
+            return $currentNode->getData()->getName() == $word;
+        case "contains":
+            return str_contains($currentNode->getData()->getName(), $word);
+    }
+}
+
 function matches(AnnotatedWord $currentWord, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
@@ -174,6 +189,114 @@ function search_corpus_for_word(DisplayParameter $parameter): array{
         }
     }
     return $sentences;
+}
+
+function search_treebank_for_word(DisplayParameter $parameter): array{
+    $sentences = [];
+    for ($i = 0; $i < $parameter->treebank->size(); $i++) {
+        $parseTree = $parameter->treebank->get($i);
+        $collector = new NodeCollector($parseTree->getRoot(), new IsEnglishLeaf());
+        $leafList = $collector->collect();
+        foreach ($leafList as $leaf){
+            if (tree_matches($leaf, $parameter->word, $parameter->search_type)) {
+                $sentences[] = $parseTree;
+                break;
+            }
+        }
+    }
+    return $sentences;
+}
+
+function create_english_parse_tree(DisplayParameter $parameter): string{
+    if ($parameter->columnWise) {
+        return create_vertical_parse_tree($parameter);
+    } else {
+        return create_horizontal_parse_tree($parameter);
+    }
+}
+
+function create_vertical_parse_node(DisplayParameter $parameter, ParseNode $node, int $maxDepth, int $nodeWidth, int $nodeHeight): string
+{
+    $display = "";
+    $s = $node->getData()->getName();
+    if ($node->getDepth() == 0){
+        $addY = 15;
+    } else {
+        if ($node->getDepth() == $maxDepth){
+            $addY = -5;
+        } else {
+            $addY = 5;
+        }
+    }
+    $x = ($node->getInOrderTraversalIndex() + 1) * $nodeWidth - 20 / 2;
+    $y = $node->getDepth() * $nodeHeight + $addY;
+    if ($node->numberOfChildren() == 0 && tree_matches($node, $parameter->word, $parameter->search_type)) {
+        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\" fill=\"" . $parameter->color . "\">" . $s . "</text>\n";
+    } else {
+        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\">" . $s . "</text>\n";
+    }
+    for ($i = 0; $i < $node->numberOfChildren(); $i++){
+        $child = $node->getChild($i);
+        $display .= "<line x1=\"" . (($node->getInOrderTraversalIndex() + 1) * $nodeWidth) . "\" y1=\"" . ($node->getDepth() * $nodeHeight + 20) . "\" x2=\"" . (($child->getInOrderTraversalIndex() + 1) * $nodeWidth) . "\" y2=\"" . ($child->getDepth() * $nodeHeight - 20) . "\"/>\n";
+        $display .= create_vertical_parse_node($parameter, $child, $maxDepth, $nodeWidth, $nodeHeight);
+    }
+    return $display;
+}
+
+function create_vertical_parse_tree(DisplayParameter $parameter): string{
+    $nodeWidth = 70;
+    $nodeHeight = 80;
+    $trees = search_treebank_for_word($parameter);
+    $display = "";
+    foreach ($trees as $parseTree) {
+        $display .= "<h3>" . $parseTree->getName() . "</h3>\n";
+        $display .= "<svg width=\"" . (($parseTree->getMaxInOrderTraversalIndex() + 2) * $nodeWidth) . "\" height=\"" . (($parseTree->maxDepth() + 1) * $nodeHeight) . "\">";
+        $display .= create_vertical_parse_node($parameter, $parseTree->getRoot(), $parseTree->maxDepth(), $nodeWidth, $nodeHeight);
+        $display .= "</svg>\n";
+    }
+    return $display;
+}
+
+function create_horizontal_parse_node(DisplayParameter $parameter, ParseNode $node, int $maxDepth, int $nodeWidth, int $nodeHeight): string
+{
+    $display = "";
+    $s = $node->getData()->getName();
+    if ($node->getDepth() == 0){
+        $addX = 15;
+    } else {
+        if ($node->getDepth() == $maxDepth){
+            $addX = -5;
+        } else {
+            $addX = 5;
+        }
+    }
+    $x = $node->getDepth() * $nodeHeight + $addX;
+    $y = ($node->getInOrderTraversalIndex() + 1) * $nodeWidth - 20 / 2;
+    if ($node->numberOfChildren() == 0 && tree_matches($node, $parameter->word, $parameter->search_type)) {
+        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\" fill=\"" . $parameter->color . "\">" . $s . "</text>\n";
+    } else {
+        $display .= "<text x=\"" . $x . "\" y=\"" . $y . "\">" . $s . "</text>\n";
+    }
+    for ($i = 0; $i < $node->numberOfChildren(); $i++){
+        $child = $node->getChild($i);
+        $display .= "<line x1=\"" . ($node->getDepth() * $nodeHeight + 40) . "\" y1=\"" . (($node->getInOrderTraversalIndex() + 1) * $nodeWidth - 15) . "\" x2=\"" . ($child->getDepth() * $nodeHeight) . "\" y2=\"" . (($child->getInOrderTraversalIndex() + 1) * $nodeWidth - 15) . "\"/>\n";
+        $display .= create_horizontal_parse_node($parameter, $child, $maxDepth, $nodeWidth, $nodeHeight);
+    }
+    return $display;
+}
+
+function create_horizontal_parse_tree(DisplayParameter $parameter): string{
+    $nodeWidth = 70;
+    $nodeHeight = 120;
+    $trees = search_treebank_for_word($parameter);
+    $display = "";
+    foreach ($trees as $parseTree) {
+        $display .= "<h3>" . $parseTree->getName() . "</h3>\n";
+        $display .= "<svg width=\"" . (($parseTree->maxDepth() + 1) * $nodeHeight) . "\" height=\"" . (($parseTree->getMaxInOrderTraversalIndex() + 2) * $nodeWidth) . "\">";
+        $display .= create_horizontal_parse_node($parameter, $parseTree->getRoot(), $parseTree->maxDepth(), $nodeWidth, $nodeHeight);
+        $display .= "</svg>\n";
+    }
+    return $display;
 }
 
 function create_slot_table(DisplayParameter $parameter): string{

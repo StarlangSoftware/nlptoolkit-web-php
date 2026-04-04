@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32a5a3ca42cc3e3ba675875a03b5323b",
+    "content-hash": "5eced85a74c7a41b8366f13e9507c600",
     "packages": [],
     "packages-dev": [
         {
@@ -182,16 +182,16 @@
         },
         {
             "name": "olcaytaner/annotatedtree",
-            "version": "1.0.1",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/StarlangSoftware/AnnotatedTree-Php.git",
-                "reference": "2acb67fb591371ac705d09d6c5c862fecf36e8e1"
+                "reference": "8a00d1ddae7a484389cf8335cb2081ede0c5c156"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/StarlangSoftware/AnnotatedTree-Php/zipball/2acb67fb591371ac705d09d6c5c862fecf36e8e1",
-                "reference": "2acb67fb591371ac705d09d6c5c862fecf36e8e1",
+                "url": "https://api.github.com/repos/StarlangSoftware/AnnotatedTree-Php/zipball/8a00d1ddae7a484389cf8335cb2081ede0c5c156",
+                "reference": "8a00d1ddae7a484389cf8335cb2081ede0c5c156",
                 "shasum": ""
             },
             "require": {
@@ -199,14 +199,14 @@
                 "ext-mbstring": "*"
             },
             "require-dev": {
-                "olcaytaner/annotatedsentence": "1.0.5",
+                "olcaytaner/annotatedsentence": "1.0.8",
                 "olcaytaner/corpus": "1.0.2",
                 "olcaytaner/dependencyparser": "1.0.0",
                 "olcaytaner/dictionary": "1.0.1",
-                "olcaytaner/framenet": "1.0.1",
+                "olcaytaner/framenet": "1.0.2",
                 "olcaytaner/morphologicalanalysis": "1.0.1",
                 "olcaytaner/namedentityrecognition": "1.0.0",
-                "olcaytaner/parsetree": "1.0.2",
+                "olcaytaner/parsetree": "1.0.7",
                 "olcaytaner/propbank": "1.0.2",
                 "olcaytaner/sentinet": "1.0.0",
                 "olcaytaner/wordnet": "1.0.1",
@@ -232,9 +232,9 @@
             "description": "Turkish Annotated Tree library",
             "support": {
                 "issues": "https://github.com/StarlangSoftware/AnnotatedTree-Php/issues",
-                "source": "https://github.com/StarlangSoftware/AnnotatedTree-Php/tree/1.0.1"
+                "source": "https://github.com/StarlangSoftware/AnnotatedTree-Php/tree/1.0.5"
             },
-            "time": "2025-10-19T17:52:34+00:00"
+            "time": "2026-04-04T06:52:22+00:00"
         },
         {
             "name": "olcaytaner/corpus",
@@ -653,6 +653,52 @@
                 "source": "https://github.com/StarlangSoftware/NGram-Php/tree/1.0.0"
             },
             "time": "2025-02-27T20:30:22+00:00"
+        },
+        {
+            "name": "olcaytaner/parsetree",
+            "version": "1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StarlangSoftware/ParseTree-Php.git",
+                "reference": "9941153e39e84db720ea10e96c5be0320737630d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StarlangSoftware/ParseTree-Php/zipball/9941153e39e84db720ea10e96c5be0320737630d",
+                "reference": "9941153e39e84db720ea10e96c5be0320737630d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "olcaytaner/dictionary": "1.0.1",
+                "phpunit/phpunit": "11.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "olcaytaner\\ParseTree\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Olcay Taner YILDIZ",
+                    "email": "olcay.yildiz@ozyegin.edu.tr",
+                    "homepage": "https://www.ozyegin.edu.tr/tr/akademik-kadro/olcayyildiz"
+                }
+            ],
+            "description": "Parse tree processing library",
+            "support": {
+                "issues": "https://github.com/StarlangSoftware/ParseTree-Php/issues",
+                "source": "https://github.com/StarlangSoftware/ParseTree-Php/tree/1.0.7"
+            },
+            "time": "2026-04-04T06:50:33+00:00"
         },
         {
             "name": "olcaytaner/propbank",
