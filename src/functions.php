@@ -164,6 +164,10 @@ function matches_frame_element(AnnotatedWord $currentWord, string $word): bool{
     return false;
 }
 
+function matches_ud_tag(AnnotatedWord $currentWord, string $word): bool{
+    return $currentWord->getUniversalDependency()->__toString() == $word;
+}
+
 function english_tree_matches(ParseNode $currentNode, string $word, string $search_type): bool{
     switch ($search_type) {
         default:
@@ -213,6 +217,8 @@ function matches(AnnotatedWord $currentWord, string $word, string $search_type):
             return matches_frame($currentWord, $word);
         case "frame_element":
             return matches_frame_element($currentWord, $word);
+        case "udtag":
+            return matches_ud_tag($currentWord, $word);
     }
 }
 
