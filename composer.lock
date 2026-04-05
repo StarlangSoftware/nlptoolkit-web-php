@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "130425b76468319c7db7013a4dad85a6",
+    "content-hash": "0ad5f4dacf13ab275a5fa476baae0937",
     "packages": [],
     "packages-dev": [
         {
@@ -377,16 +377,16 @@
         },
         {
             "name": "olcaytaner/dependencyparser",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php.git",
-                "reference": "11be36f1e3ed5460fac0bd2e0451816ecf9726ee"
+                "reference": "8dfc818b2e2474e6384c580e8812daa5f8937a43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/StarlangSoftware/TurkishDependencyParser-Php/zipball/11be36f1e3ed5460fac0bd2e0451816ecf9726ee",
-                "reference": "11be36f1e3ed5460fac0bd2e0451816ecf9726ee",
+                "url": "https://api.github.com/repos/StarlangSoftware/TurkishDependencyParser-Php/zipball/8dfc818b2e2474e6384c580e8812daa5f8937a43",
+                "reference": "8dfc818b2e2474e6384c580e8812daa5f8937a43",
                 "shasum": ""
             },
             "require": {
@@ -421,9 +421,9 @@
             "description": "Dependency TreeBank library",
             "support": {
                 "issues": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php/issues",
-                "source": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php/tree/1.0.0"
+                "source": "https://github.com/StarlangSoftware/TurkishDependencyParser-Php/tree/1.0.1"
             },
-            "time": "2025-09-24T19:01:39+00:00"
+            "time": "2026-04-05T10:26:54+00:00"
         },
         {
             "name": "olcaytaner/dictionary",
