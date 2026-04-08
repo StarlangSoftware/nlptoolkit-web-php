@@ -23,7 +23,7 @@ if (file_exists($dictionaryCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="morphology_search_word">Word:</label>
+    <label for="morphology_search_word">Word: (atıcılık, gözlükçü, yaratıcı, ...)</label>
     <input type="text" id="morphology_search_word" name="morphology_search_word" required><br><br>
     <input type="submit" name="submit_morphology_search" value="Find Morphology">
 </form>

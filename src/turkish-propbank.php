@@ -30,7 +30,7 @@ if (file_exists($wordNetCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="verb_name">Verb:</label>
+    <label for="verb_name">Verb: (gitmek, koşmak, atmak, yürümek, sallamak, ...)</label>
     <input type="text" id="verb_name" name="verb_name" required><br><br>
     <input type="submit" name="submit_propbank_verb_search" value="Find Verb">
 </form>
@@ -43,7 +43,7 @@ if (isset($_POST['submit_propbank_verb_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="verb_id">Verb SynSet Id:</label>
+    <label for="verb_id">Verb SynSet Id: (TUR10-0000360, TUR10-0908230, TUR10-0718440, ...)</label>
     <input type="text" id="verb_id" name="verb_id" required><br><br>
     <input type="submit" name="submit_propbank_verb_id_search" value="Find Verb">
 </form>

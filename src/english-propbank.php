@@ -21,7 +21,7 @@ if (file_exists($propBankCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="predicate_name">Predicate:</label>
+    <label for="predicate_name">Predicate: (go, watch, talk, ...)</label>
     <input type="text" id="predicate_name" name="predicate_name" required><br><br>
     <input type="submit" name="submit_english_predicate_search" value="Find Predicate">
     <br>
@@ -33,7 +33,7 @@ if (isset($_POST['submit_english_predicate_search'])) {
 }
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="role_set_id">RoleSet Id:</label>
+    <label for="role_set_id">RoleSet Id: (go.01, watch.01, talk.02, ...)</label>
     <input type="text" id="role_set_id" name="role_set_id" required><br><br>
     <input type="submit" name="submit_english_role_set_search" value="Find Roleset">
 </form>

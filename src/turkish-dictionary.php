@@ -23,7 +23,7 @@ if (file_exists($dictionaryCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="dictionary_search_word">Word:</label>
+    <label for="dictionary_search_word">Word: (git, ev, güzel, Ali, ...)</label>
     <input type="text" id="dictionary_search_word" name="dictionary_search_word" required><br><br>
     <input type="submit" name="word_search" value="Find Word">
 </form>

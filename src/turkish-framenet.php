@@ -29,7 +29,7 @@ if (file_exists($framenetCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="frame_name">Frame name:</label>
+    <label for="frame_name">Frame name: (Abandoned_State, Duplication, Judgement, ...)</label>
     <input type="text" id="frame_name" name="frame_name" required><br><br>
     <input type="submit" name="submit_frame_search" value="Find Frame">
 </form>
@@ -41,7 +41,7 @@ if (isset($_POST['submit_frame_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="verb_name">Verb:</label>
+    <label for="verb_name">Verb: (gitmek, koşmak, yürümek, atmak, ...)</label>
     <input type="text" id="verb_name" name="verb_name" required><br><br>
     <input type="submit" name="framenet_verb_search" value="Find Verb">
 </form>
@@ -55,7 +55,7 @@ if (isset($_POST['framenet_verb_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="verb_id">Verb SynSet Id:</label>
+    <label for="verb_id">Verb SynSet Id: (TUR10-0884740, TUR10-0596810, TUR10-0715300, ...)</label>
     <input type="text" id="verb_id" name="verb_id" required><br><br>
     <input type="submit" name="framenet_id_search" value="Find Verb">
 </form>

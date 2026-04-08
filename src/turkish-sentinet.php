@@ -32,7 +32,7 @@ if (file_exists($sentiLiteralNetCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="senti_net_word">Word:</label>
+    <label for="senti_net_word">Word: (güzel, çirkin, kötü, mükemmel, ...)</label>
     <input type="text" id="senti_net_word" name="senti_net_word" required><br><br>
     <input type="submit" name="submit_sentinet_word_search" value="Find Word Sense">
 </form>
@@ -53,7 +53,7 @@ if (isset($_POST['submit_sentinet_word_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="senti_net_synset_id">SynSet Id:</label>
+    <label for="senti_net_synset_id">SynSet Id: (TUR10-0969360, TUR10-0019400, TUR10-0867930, ...)</label>
     <input type="text" id="senti_net_synset_id" name="senti_net_synset_id" required><br><br>
     <input type="submit" name="submit_sentinet_id_search" value="Find Sense">
 </form>

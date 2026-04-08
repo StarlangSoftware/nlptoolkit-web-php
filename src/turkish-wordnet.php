@@ -21,7 +21,7 @@ if (file_exists($wordNetCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="turkish_word_net_word">Word:</label>
+    <label for="turkish_word_net_word">Word: (gitmek, güzel, ev, almak, ...)</label>
     <input type="text" id="turkish_word_net_word" name="turkish_word_net_word" required><br><br>
     <input type="submit" name="submit_turkish_wordnet_word_search" value="Find Word">
 </form>
@@ -33,7 +33,7 @@ if (isset($_POST['submit_turkish_wordnet_word_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="turkish_word_net_synonym">Word:</label>
+    <label for="turkish_word_net_synonym">Word: (gitmek, güzel, ev, almak, ...)</label>
     <input type="text" id="turkish_word_net_synonym" name="turkish_word_net_synonym" required><br><br>
     <input type="submit" name="submit_turkish_wordnet_synonym_search" value="Find Synonym">
 </form>
@@ -45,7 +45,7 @@ if (isset($_POST['submit_turkish_wordnet_synonym_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="turkish_word_net_synset_id">SynSet Id:</label>
+    <label for="turkish_word_net_synset_id">SynSet Id: (TUR10-0000006, TUR10-0452300, TUR10-0644430, ...)</label>
     <input type="text" id="turkish_word_net_synset_id" name="turkish_word_net_synset_id" required><br><br>
     <input type="submit" name="submit_submit_turkish_wordnet_id_search" value="Find SynSet">
 </form>

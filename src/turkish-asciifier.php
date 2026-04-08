@@ -24,7 +24,7 @@ if (file_exists($asciifierCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="sentence">Sentence:</label>
+    <label for="sentence">Sentence: (şöğüş eti aldık)</label>
     <input type="text" id="sentence" name="sentence" size="100" required><br><br>
     <input type="submit" name="submit_asciifier" value="Asciifier">
 </form>

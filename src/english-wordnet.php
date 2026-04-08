@@ -22,7 +22,7 @@ if (file_exists($wordNetCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="english_word_net_word">Word:</label>
+    <label for="english_word_net_word">Word: (thing, walk, nice, ...)</label>
     <input type="text" id="english_word_net_word" name="english_word_net_word" required><br><br>
     <input type="submit" name="submit_english_wordnet_word_search" value="Find Word">
 </form>
@@ -34,7 +34,7 @@ if (isset($_POST['submit_english_wordnet_word_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="english_word_net_synonym">Word:</label>
+    <label for="english_word_net_synonym">Word: (black, walk, wonderful, ...)</label>
     <input type="text" id="english_word_net_synonym" name="english_word_net_synonym" required><br><br>
     <input type="submit" name="submit_english_wordnet_synonym_search" value="Find Synonym">
 </form>
@@ -46,7 +46,7 @@ if (isset($_POST['submit_english_wordnet_synonym_search'])) {
 ?>
 <br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="english_word_net_synset_id">SynSet Id:</label>
+    <label for="english_word_net_synset_id">SynSet Id: (ENG31-00001740-n, ENG31-00003316-v, ENG31-00003699-s, ...)</label>
     <input type="text" id="english_word_net_synset_id" name="english_word_net_synset_id" required><br><br>
     <input type="submit" name="submit_submit_english_wordnet_id_search" value="Find SynSet">
 </form>

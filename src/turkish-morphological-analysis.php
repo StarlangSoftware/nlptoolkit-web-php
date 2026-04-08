@@ -22,7 +22,7 @@ if (file_exists($fsmCache)) {
 include 'functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    <label for="sentence">Sentence:</label>
+    <label for="sentence">Sentence: (Ali topu at .)</label>
     <input type="text" id="sentence" name="sentence" size="100" required><br><br>
     <input type="submit" name="submit_morphological_analysis" value="Morphological Analysis">
 </form>
