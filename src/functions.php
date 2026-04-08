@@ -40,22 +40,8 @@ class DisplayParameter {
 }
 
 class Point{
-    public float $x {
-        get {
-            return $this->x;
-        }
-        set {
-            $this->x = $value;
-        }
-    }
-    public float $y {
-        get {
-            return $this->y;
-        }
-        set {
-            $this->y = $value;
-        }
-    }
+    public float $x;
+    public float $y;
 
     public function __construct(int $x, int $y){
         $this->x = $x;
