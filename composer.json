@@ -17,6 +17,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "11.4.0",
+    "olcaytaner/amr": "1.0.0",
     "olcaytaner/annotatedtree": "1.0.5",
     "olcaytaner/annotatedsentence": "1.0.8",
     "olcaytaner/deasciifier": "1.0.2",

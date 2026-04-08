@@ -10,14 +10,6 @@
         color: #222;
     }
 
-    .container {
-        background: white;
-        max-width: 900px;
-        margin: auto;
-        padding: 2rem 2.5rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
     a {
         color: #4f7cff;
         font-weight: 500;
@@ -72,16 +64,6 @@
     p {
         color: #555;
     }
-    .badge {
-        display: inline-block;
-        background: #4f7cff;
-        color: white;
-        padding: 0.25rem 0.6rem;
-        font-size: 0.75rem;
-        border-radius: 999px;
-        margin-left: 0.5rem;
-        vertical-align: middle;
-    }
 </style>
 <head>
     <meta charset="UTF-8">
@@ -91,10 +73,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('memory_limit', '1024M');
-use olcaytaner\Framenet\FrameNet;
-use olcaytaner\Propbank\FramesetList;
 use olcaytaner\Propbank\PredicateList;
-use olcaytaner\WordNet\WordNet;
 $propBankCache = "propbank2.cache";
 if (file_exists($propBankCache)) {
     $englishPropBank = unserialize(file_get_contents($propBankCache));
