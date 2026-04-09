@@ -60,6 +60,16 @@ h2 {
 p {
     color: #555;
 }
+ellipse {
+    fill:none;
+    stroke:black;
+    stroke-width:2
+}
+polygon{
+    fill:lime;
+    stroke:black;
+    stroke-width:3
+}
 line{
     stroke:black;
     stroke-width:2
