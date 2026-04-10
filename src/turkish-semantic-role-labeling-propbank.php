@@ -32,6 +32,8 @@ include 'functions.php';
                 <label for="atis">Atis</label><br>
                 <input type="radio" id="tourism" name="dataset" value="tourism">
                 <label for="tourism">Tourism</label><br>
+                <input type="radio" id="framenet" name="dataset" value="framenet">
+                <label for="framenet">Framenet</label><br>
                 <input type="radio" id="kenet" name="dataset" value="kenet">
                 <label for="kenet">Kenet</label><br>
                 <input type="radio" id="penn" name="dataset" value="penn">
@@ -89,6 +91,11 @@ if (isset($_POST['submit_word'])) {
         case "tourism":
             $parameter->corpus = new AnnotatedCorpus("../Etstur/Turkish-Phrase");
             $parameter->corpusName = "Tourism";
+            echo create_propbank_table($parameter);
+            break;
+        case "framenet":
+            $parameter->corpus = create_merged_corpus("../FrameNet-Examples/Turkish-Phrase");
+            $parameter->corpusName = "Framenet";
             echo create_propbank_table($parameter);
             break;
         case "kenet":

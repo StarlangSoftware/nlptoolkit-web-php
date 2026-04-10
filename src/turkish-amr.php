@@ -27,8 +27,10 @@ include 'amr-functions.php';
             <td><p>Search dataset:</p>
                 <input type="radio" id="gb" name="dataset" value="gb" checked="checked">
                 <label for="gb">gb</label>
-                <input type="radio" id="tourism" name="dataset" value="tourism" checked="checked">
+                <input type="radio" id="tourism" name="dataset" value="tourism">
                 <label for="tourism">tourism</label>
+                <input type="radio" id="framenet" name="dataset" value="framenet">
+                <label for="framenet">framenet</label>
             </td>
         </tr>
     </table>
@@ -51,6 +53,11 @@ if (isset($_POST['submit_word'])) {
         case "tourism":
             $parameter->amrCorpus = new AmrCorpus("../Etstur/Amr");
             $parameter->corpusName = "Tourism";
+            echo create_amr($parameter);
+            break;
+        case "framenet":
+            $parameter->amrCorpus = create_merged_amr_corpus("../FrameNet-Examples/Amr");
+            $parameter->corpusName = "Framenet";
             echo create_amr($parameter);
             break;
     }

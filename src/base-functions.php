@@ -18,3 +18,18 @@ class DisplayParameter {
     public string $field_name;
     public string $layer;
 }
+
+function create_merged_corpus(string $folder): AnnotatedCorpus{
+    $first = true;
+    foreach (glob($folder . "/*") as $subDirectory) {
+        if (is_dir($subDirectory) && !str_contains($subDirectory, ".git")) {
+            if ($first){
+                $corpus = new AnnotatedCorpus($subDirectory);
+                $first = false;
+            } else {
+                $corpus->combine(new AnnotatedCorpus($subDirectory));
+            }
+        }
+    }
+    return $corpus;
+}

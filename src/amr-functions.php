@@ -1,5 +1,6 @@
 <?php
 
+use olcaytaner\Amr\Corpus\AmrCorpus;
 use olcaytaner\Amr\Corpus\AmrSentence;
 use olcaytaner\Amr\Corpus\AmrWord;
 
@@ -139,4 +140,19 @@ function create_amr(DisplayParameter $parameter): string{
         $display .= "</svg>\n";
     }
     return $display;
+}
+
+function create_merged_amr_corpus(string $folder): AmrCorpus{
+    $first = true;
+    foreach (glob($folder . "/*") as $subDirectory) {
+        if (is_dir($subDirectory) && !str_contains($subDirectory, ".git")) {
+            if ($first){
+                $corpus = new AmrCorpus($subDirectory);
+                $first = false;
+            } else {
+                $corpus->combine(new AmrCorpus($subDirectory));
+            }
+        }
+    }
+    return $corpus;
 }
