@@ -26,9 +26,9 @@ include 'amr-functions.php';
             </td>
             <td><p>Search dataset:</p>
                 <input type="radio" id="gb" name="dataset" value="gb" checked="checked">
-                <label for="gb">gb</label>
+                <label for="gb">gb</label><br>
                 <input type="radio" id="tourism" name="dataset" value="tourism">
-                <label for="tourism">tourism</label>
+                <label for="tourism">tourism</label><br>
                 <input type="radio" id="framenet" name="dataset" value="framenet">
                 <label for="framenet">framenet</label>
             </td>
