@@ -63,6 +63,15 @@ include 'functions.php';
 
 </form>
 <?php
+function create_shallow_parse_table(DisplayParameter $parameter): string{
+    $parameter->field_name = "shallowparse";
+    if ($parameter->columnWise) {
+        return create_generic_column_table($parameter);
+    } else {
+        return create_generic_row_table($parameter);
+    }
+}
+
 if (isset($_POST['submit_word'])) {
     $parameter = new DisplayParameter();
     $parameter->word = $_POST['word'];

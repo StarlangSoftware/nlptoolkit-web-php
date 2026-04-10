@@ -14,7 +14,7 @@ use olcaytaner\AnnotatedSentence\AnnotatedCorpus;
 require_once __DIR__ . '/../vendor/autoload.php';
 set_time_limit(0);
 ini_set('memory_limit', '4096M');
-include 'functions.php';
+include 'ud-functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table>

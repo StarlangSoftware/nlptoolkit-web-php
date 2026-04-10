@@ -58,6 +58,15 @@ include 'functions.php';
     <input type="submit" name="submit_word" value="Named Entity Recognition">
 </form>
 <?php
+function create_ner_table(DisplayParameter $parameter): string{
+    $parameter->field_name = "ner";
+    if ($parameter->columnWise) {
+        return create_generic_column_table($parameter);
+    } else {
+        return create_generic_row_table($parameter);
+    }
+}
+
 if (isset($_POST['submit_word'])) {
     $parameter = new DisplayParameter();
     $parameter->word = $_POST['word'];

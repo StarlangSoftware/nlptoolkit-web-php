@@ -14,7 +14,7 @@ use olcaytaner\Amr\Corpus\AmrCorpus;
 require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('memory_limit', '4096M');
 set_time_limit(0);
-include 'functions.php';
+include 'amr-functions.php';
 ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
     <table>
