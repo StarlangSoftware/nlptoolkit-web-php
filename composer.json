@@ -26,6 +26,7 @@
     "olcaytaner/ngram": "1.0.0",
     "olcaytaner/dictionary": "1.0.1",
     "olcaytaner/morphologicalanalysis": "1.0.1",
+    "olcaytaner/morphologicaldisambiguation": "1.0.0",
     "olcaytaner/namedentityrecognition": "1.0.0",
     "olcaytaner/parsetree": "1.0.8",
     "olcaytaner/framenet": "1.0.2",

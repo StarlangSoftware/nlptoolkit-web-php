@@ -9,6 +9,7 @@ use olcaytaner\Dictionary\Dictionary\TxtWord;
 use olcaytaner\Framenet\Frame;
 use olcaytaner\Framenet\FrameNet;
 use olcaytaner\MorphologicalAnalysis\MorphologicalAnalysis\FsmMorphologicalAnalyzer;
+use olcaytaner\MorphologicalDisambiguation\LongestRootFirstDisambiguation;
 use olcaytaner\NamedEntityRecognition\NamedEntityTypeStatic;
 use olcaytaner\Propbank\FramesetList;
 use olcaytaner\Propbank\PredicateList;
@@ -267,6 +268,20 @@ function create_role_set_table(PredicateList $englishPropBank, string $roleSetNa
                 }
             }
         }
+    }
+    $display .= "</table>";
+    return $display;
+}
+
+function create_morphological_disambiguation_table(LongestRootFirstDisambiguation $disambiguator, FsmMorphologicalAnalyzer $fsm, string $sentence): string
+{
+    $s = new Sentence($sentence);
+    $analyzedSentence = $fsm->robustMorphologicalAnalysisFromSentence($s);
+    $correctParses = $disambiguator->disambiguate($analyzedSentence);
+    $display = "<table> <tr> <th>Word</th> <th>Morphological Analysis</th> </tr>";
+    for ($i = 0; $i < $s->wordCount(); $i++) {
+        $display .= "<tr><td>" . $s->getWord($i)->getName() . "</td>";
+        $display .= "<td>" . $correctParses[$i]->getFsmParseTransitionList() . "</td></tr>";
     }
     $display .= "</table>";
     return $display;
